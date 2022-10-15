@@ -16,34 +16,14 @@ struct nodo_dato{
      int indice; //Esto es para saber en que posición de la lista esta la primary key del dato (osea la posición de la tupla)
 };
 
-bool seRepite(dato d, char *data){
-     if(d==NULL)
-          return false;
-     else if(strcmp(d->info, data) != 0)
-          return seRepite(d->sig, data);
-     else
-          return true;
+char * infoDato(dato d){
+     return d->info;
 }
 
-void insertIntoD(dato & d, char *data){
-     dato ant;
-     int iter = 0;
-     while(d != NULL){
-          ant = d;
-          d = d->sig;
-          iter++;
-     }
-     d = new(nodo_dato);
-     d->info = data;
-     d->sig = NULL;
-     d->indice = iter;
-     if(iter == 0){
-          d->ant = NULL;
-          delete ant;
-     }else{
-          d->ant = ant;
-          ant->sig = d;
-          while(d->ant != NULL)
-               d = d->ant;
-     }
+dato insertIntoD(char *data, unsigned int index){
+     dato d = new(nodo_dato);
+     d->info = new(char[MAX_VALOR]);
+     strcpy(d->info ,data);
+     d->indice = index;
+     return d;
 }

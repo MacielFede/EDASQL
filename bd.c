@@ -10,6 +10,7 @@ using namespace std;
 #include <string.h>
 #include "bd.h"
 #include "tablas.h"
+#include "tabla.h"
 
 struct nodo_bd{
 	tablas ts;
@@ -17,7 +18,7 @@ struct nodo_bd{
 
 bd createBD(){
 	bd db = new(nodo_bd);
-	db->ts = crearTabla();
+	db->ts = NULL;
 	return db;
 }
 
@@ -46,20 +47,23 @@ TipoRet alterCol (bd & bd, char * nombreTabla, char * nombreCol, char *tipoColNu
 }
 
 TipoRet insertInto (bd & bd, char *nombreTabla, char *columnasTupla, char *valoresTupla){
-	if(bd->ts == NULL || strcmp(nombreTabla, nombreT(bd->ts)) != 0){
-		cout << "La tabla indicada no existe."<< endl;
-		return ERROR;
-	}else
-		return insertIntoT(bd->ts, columnasTupla, valoresTupla);
-}
-
-TipoRet deleteFrom (bd & bd, char *nombreTabla, char *condicionEliminar){
-	if(bd->ts == NULL || strcmp(nombreTabla, nombreT(bd->ts)) != 0){
+	if(!encontreTS(bd->ts, nombreTabla)){
 		cout << "La tabla indicada no existe."<< endl;
 		return ERROR;
 	}else{
-		return deleteFromT(bd->ts, condicionEliminar);
+		tabla aux = buscarTabla(bd->ts, nombreTabla);
+		return insertIntoTS(aux, columnasTupla, valoresTupla);
 	}
+}
+
+TipoRet deleteFrom (bd & bd, char *nombreTabla, char *condicionEliminar){
+	// if(bd->ts == NULL || strcmp(nombreTabla, nombreT(bd->ts)) != 0){
+	// 	cout << "La tabla indicada no existe."<< endl;
+	// 	return ERROR;
+	// }else{
+	// 	return deleteFromT(bd->ts, condicionEliminar);
+	// }
+	return NO_IMPLEMENTADA;
 }
 
 TipoRet update(bd & bd, char * nombreTabla, char * condicionModificar, char * columnaModificar, char * valorModificar){

@@ -19,7 +19,7 @@ char * nombreT(tabla t);
 tabla insertarTabla(tabla t, char *nombreT);
 //Crea la tabla t y le asigna un nombre, dejando las columnas en NULL;
 
-TipoRet insertIntoT(tabla & t, char *columnasTupla, char *valoresTupla);
+TipoRet insertIntoT(tabla & t, char *columnasTupla[], char *valoresTupla[]);
 //Inserta la los valores indicados en las columnas indicadas de la tabla indicada (chequea que haya columnas existentes)
 //Pre: la tabla t debe existir.
 
