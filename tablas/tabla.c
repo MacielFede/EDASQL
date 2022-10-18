@@ -9,9 +9,9 @@
 using namespace std;
 
 #include <string.h>
-#include "define.h"
+#include "../define.h"
 #include "tabla.h"
-#include "columnas.h"
+#include "../columnas/columnas.h"
 
 struct nodo_tabla{
      columnas cs;
@@ -51,16 +51,12 @@ TipoRet insertIntoT(tabla & t, char *columnasTupla[], char *valoresTupla[]){
      }
 }
 
-TipoRet deleteFromT(tabla & t, char *condicionEliminar){
-     // if(columnaVacia(t->cs)){ //Si no hay columnas tenemos un error
-     //      cout << "La tabla indicada no tiene columnas"<<endl;
-     //      return ERROR;
-     // }else{
-     //      char *col = new char[MAX_NOMBRE];
-     //      char *operador = new char;
-     //      char *condicion = new char[MAX_VALOR];
-     //      col = strtok(condicionEliminar, "<>!=");
-     //      operador = strtok(NULL, "abcdefghijklmnñopqrstuvwxyz");;//el primer char de condicion eliminar luego de haberle sacado la columna;
-     //      condicion = strtok(NULL, " ");
-     return ERROR;
+TipoRet deleteFromT(tabla & t, char *col, char *operador, char *valor){
+     if(!encontreCS(t->cs, col)){
+          cout << "La columna indicada no existe" << endl;
+          return ERROR;
+     }else{
+          columna aux = buscarColumna(t->cs, col);
+          return deleteFromCS(t->cs , aux, operador, valor);
+     }
 }

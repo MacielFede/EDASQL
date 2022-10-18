@@ -9,7 +9,7 @@
 using namespace std;
 
 #include <string.h>
-#include "define.h"
+#include "../define.h"
 #include "tabla.h"
 #include "tablas.h"
 
@@ -56,4 +56,8 @@ TipoRet insertIntoTS(tabla & t, char *columnasTupla, char *valoresTupla){
           valores[iter] = strtok(NULL, ":");
      }
      return insertIntoT(t, col, valores);
+}
+
+TipoRet deleteFromTs(tabla & t, char *col, char *operador, char *valor){
+     return deleteFromT(t, col, operador, valor);
 }

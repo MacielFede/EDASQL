@@ -23,9 +23,8 @@ TipoRet insertIntoT(tabla & t, char *columnasTupla[], char *valoresTupla[]);
 //Inserta la los valores indicados en las columnas indicadas de la tabla indicada (chequea que haya columnas existentes)
 //Pre: la tabla t debe existir.
 
-TipoRet deleteFromT(tabla & t, char *condicionEliminar);
-//Elimina las tuplas que cumplan la condicion dada, si es que existe la columna y tabla indicadas.
+TipoRet deleteFromT(tabla & t, char *col, char *operador, char *valor);
+//Elimina las tuplas que cumplan la condicion dada
 //Pre: la tabla dada debe ser != NULL
-//Pre: condicionEliminar debe respetar el formato establecido y usar los operadores <, >, !, =.
 
 #endif

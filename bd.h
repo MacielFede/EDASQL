@@ -142,5 +142,9 @@ TipoRet redo(bd & bd);
 bd destroyBD(bd & bd);
 // Destruye bd y libera la memoria asociada.
 
+char getOperador( char string[]);
+//Retorna uno de los caracteres de operandos (<>=!)
+//Pre: la string pasada debe contener uno de los caracteres de operando
+
 #endif
 

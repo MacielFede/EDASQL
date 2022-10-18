@@ -17,9 +17,19 @@ bool encontreCS(columnas cs, char *nombre);
 columna buscarColumna(columnas cs, char *nombre);
 //Retorna la columna que coincide con ese nombre, NULL si no encuentra coincidencias
 
-TipoRet insertIntoCS(columnas cs, char *columnasTupla[], char *valoresTupla[]);
+columnas revovinarCS(columnas cs);
+//Devuelve la primer posicion de la lista de columnas
+//Pre: la lista debe tener al menos 1 elemento
+
+TipoRet insertIntoCS(columnas & cs, char *columnasTupla[], char *valoresTupla[]);
 //Inserta en las columnas dadas los valores dados
 //Pre: el puntero cs debe tener un puntero a la primer columna de la tabla
+
+TipoRet deleteFromCS(columnas cs, columna c, char *operador, char *valor);
+//Busca en la columna pasada los valores que cumplen la condicion
+//Pre: la lista cs debe ser un puntero a la primer posicion
+//Pre: c debe != NULL
+
 
 
 #endif

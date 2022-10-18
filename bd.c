@@ -9,8 +9,8 @@
 using namespace std;
 #include <string.h>
 #include "bd.h"
-#include "tablas.h"
-#include "tabla.h"
+#include "tablas/tablas.h"
+#include "tablas/tabla.h"
 
 struct nodo_bd{
 	tablas ts;
@@ -57,13 +57,16 @@ TipoRet insertInto (bd & bd, char *nombreTabla, char *columnasTupla, char *valor
 }
 
 TipoRet deleteFrom (bd & bd, char *nombreTabla, char *condicionEliminar){
-	// if(bd->ts == NULL || strcmp(nombreTabla, nombreT(bd->ts)) != 0){
-	// 	cout << "La tabla indicada no existe."<< endl;
-	// 	return ERROR;
-	// }else{
-	// 	return deleteFromT(bd->ts, condicionEliminar);
-	// }
-	return NO_IMPLEMENTADA;
+	if(!encontreTS(bd->ts, nombreTabla)){
+		cout << "La tabla indicada no existe."<< endl;
+		return ERROR;
+	}else{
+		tabla aux = buscarTabla(bd->ts, nombreTabla);
+		char operador = getOperador(condicionEliminar);
+		char *col = strtok(condicionEliminar, "<>=!");
+		char *valor = strtok(NULL, "<>=!");
+		return ERROR; //deleteFromTS(aux, col, operador, valor);
+	}
 }
 
 TipoRet update(bd & bd, char * nombreTabla, char * condicionModificar, char * columnaModificar, char * valorModificar){
@@ -131,3 +134,9 @@ bd destroyBD(bd & bd){
 	return NULL;
 }
 
+char getOperador(char string[]){
+	unsigned int iter = 0;
+	while(string[iter] != '<' && string[iter] != '>' && string[iter] != '=' && string[iter] != '!')
+		iter++;
+	return string[iter];
+}

@@ -17,4 +17,7 @@ void insertIntoDS(datos & ds, char *valorTupla);
 //Inserta el dato pasado en la lista de datos
 //Pre: ds debe ser un puntero al primer elemento de la lista de datos
 
+int deleteIndexDS(datos ds, char *operador,char *valor, char *tipoDato);
+//Retorna el index del primer dato que cumple la condicion
+
 #endif

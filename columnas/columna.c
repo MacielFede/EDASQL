@@ -7,10 +7,10 @@
 #include <iostream>
 using namespace std;
 
-#include "define.h"
+#include "../define.h"
 #include <string.h>
 #include "columna.h"
-#include "datos.h"
+#include "../datos/datos.h"
 
 struct nodo_columna{
      char * tipoDato;
@@ -36,7 +36,7 @@ char * tipoDatoC(columna c){
 }
 
 bool mismoTipoDato(columna c, char *dato){
-     return ((strcmp(tipoDatoC(c), "STRING") == 0 && atoi(dato) == 0) || (strcmp(tipoDatoC(c), "INTEGER") == 0 && atoi(dato) != 0));
+     return ((strcasecmp(tipoDatoC(c), "STRING") == 0 && atoi(dato) == 0) || (strcasecmp(tipoDatoC(c), "INTEGER") == 0 && atoi(dato) != 0));
 }
 
 datos listaDatos(columna c){
@@ -44,13 +44,16 @@ datos listaDatos(columna c){
 }
 
 bool esPrimaryKey(columna c){
-     return (strcmp(c->calificador , "PRIMARY_KEY") == 0);
+     return (strcasecmp(c->calificador , "PRIMARY_KEY") == 0);
 }
 
 void insertIntoC(columna & c, char *valorTupla){
      return insertIntoDS(c->ds, valorTupla);
 }
 
+int deleteIndex(columna c, char *operador, char *valor){
+     return deleteIndexDS(c->ds, operador, valor, c->tipoDato);
+}
 
 TipoRet deleteFromC(columna & c, char *column, char *operador, char *condicion){
      return ERROR;

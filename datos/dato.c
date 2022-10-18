@@ -7,7 +7,7 @@
 #include <iostream>
 using namespace std;
 
-#include "define.h"
+#include "../define.h"
 #include "dato.h"
 #include <string.h>
 
@@ -18,6 +18,14 @@ struct nodo_dato{
 
 char * infoDato(dato d){
      return d->info;
+}
+
+int indiceDato(dato d){
+     return d->indice;
+}
+
+bool datoVacio(dato d){
+     return (d == NULL);
 }
 
 dato insertIntoD(char *data, unsigned int index){

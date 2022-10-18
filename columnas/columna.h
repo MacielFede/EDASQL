@@ -7,7 +7,7 @@
 // Trabajo Obligatorio
 // Modulo de Implementación de Base de Datos.
 
-#include "datos.h"
+#include "../datos/datos.h"
 
 typedef struct nodo_columna * columna;
 
@@ -42,8 +42,14 @@ void insertIntoC(columna & c, char *valoresTupla);
 //Chequea que las columnas existan y que una de ellas sea pk, para luego insertar los datos.
 //Pre: la tabla t debe existir y debe tener al menos 1 columna
 
-TipoRet deleteFromC(columna & c, char *column, char *operador, char *condicion);
-//Elimina de la columna dada las tuplas que cumplan la condicion
-//Pre: la columna debe poder existir.
+int deleteIndex(columna c, char *operador, char *valor);
+//Dada una columna retorna el indice del primer valor que cumple con la condicion dada
+//Retorna -1 en caso de que no haya valores que cumplan la condicion
+//Pre: la columna debe != NULL
+
+TipoRet deleteFromC(columna & c, char *operador, char *valor);
+//Elimina de la columna dada el primer valor que cumplan la condicion
+//Restaura el indice de cada dato para que no haya saltos entre indices
+//Pre: la columna debe != NULL.
 
 #endif
