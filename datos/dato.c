@@ -35,3 +35,7 @@ dato insertIntoD(char *data, unsigned int index){
      d->indice = index;
      return d;
 }
+
+void resetearIndice(dato & d){
+     d->indice--;
+}

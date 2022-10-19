@@ -20,4 +20,8 @@ void insertIntoDS(datos & ds, char *valorTupla);
 int deleteIndexDS(datos ds, char *operador,char *valor, char *tipoDato);
 //Retorna el index del primer dato que cumple la condicion
 
+datos deleteFromDS(datos ds, int index);
+//Elimina de la lista de datos aquel con el index establecido
+//Pre: ds debe != NULL y su cantidad de datos >= index
+
 #endif

@@ -93,3 +93,19 @@ int deleteIndexDS(datos ds, char *operador,char *valor, char *tipoDato){
           return -1;
      }
 }
+
+datos deleteFromDS(datos ds, int index){
+     while(indiceDato(ds->d) < index)
+          ds = ds->sig;
+     datos ant = ds->ant;
+     ant->sig = ds->sig;
+     ds->sig->ant = ant;
+     delete ds;
+     do{
+          ant = ant->sig;
+          resetearIndice(ant->d);
+     }while(ant->sig != NULL);
+     while(ant->ant != NULL)
+          ant = ant->ant;
+     return ant;
+}

@@ -55,7 +55,8 @@ int deleteIndex(columna c, char *operador, char *valor){
      return deleteIndexDS(c->ds, operador, valor, c->tipoDato);
 }
 
-TipoRet deleteFromC(columna & c, char *column, char *operador, char *condicion){
-     return ERROR;
+columna deleteFromC(columna c, int index){
+     c->ds = deleteFromDS(c->ds, index);
+     return c;
 }
 

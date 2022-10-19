@@ -25,7 +25,7 @@ TipoRet insertIntoCS(columnas & cs, char *columnasTupla[], char *valoresTupla[])
 //Inserta en las columnas dadas los valores dados
 //Pre: el puntero cs debe tener un puntero a la primer columna de la tabla
 
-TipoRet deleteFromCS(columnas cs, columna c, char *operador, char *valor);
+TipoRet deleteFromCS(columnas & cs, columna c, char *operador, char *valor);
 //Busca en la columna pasada los valores que cumplen la condicion
 //Pre: la lista cs debe ser un puntero a la primer posicion
 //Pre: c debe != NULL

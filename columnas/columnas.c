@@ -44,6 +44,7 @@ columnas revovinarCS(columnas cs){
 
 TipoRet insertIntoCS(columnas & cs, char *columnasTupla[], char *valoresTupla[]){
      unsigned int iter;
+     char empty[] = "EMPTY";
      while(cs != NULL){
           iter = 0;
           while(columnasTupla[iter] != NULL && strcmp(nombreC(cs->c), columnasTupla[iter]) != 0)
@@ -69,7 +70,7 @@ TipoRet insertIntoCS(columnas & cs, char *columnasTupla[], char *valoresTupla[])
                     cout << "La columna " << nombreC(cs->c) << " no acepta valor empty" << endl;
                     return ERROR;
                }else
-                    insertIntoC(cs->c, "EMPTY");
+                    insertIntoC(cs->c, empty);
           }
           cs = cs->sig;
      }
@@ -77,7 +78,7 @@ TipoRet insertIntoCS(columnas & cs, char *columnasTupla[], char *valoresTupla[])
      return OK;
 }
 
-TipoRet deleteFromCS(columnas cs, columna c, char *operador, char *valor){
+TipoRet deleteFromCS(columnas & cs, columna c, char *operador, char *valor){
      if(strcmp(valor, "") == 0 || (strcasecmp(valor, "EMPTY") == 0 && strcasecmp(calificadorC(c), "NOT_EMPTY") == 0)){
           //Se borran todas las tuplas
           //cs = deleteAll();
@@ -88,7 +89,7 @@ TipoRet deleteFromCS(columnas cs, columna c, char *operador, char *valor){
           int index = deleteIndex(c, operador, valor);
           while(index != -1){
                while(cs != NULL){
-                    //cs->c = deleteFromC();
+                    cs->c = deleteFromC(cs->c, index);
                     cs = cs->sig;
                }
                cs = revovinarCS(cs);

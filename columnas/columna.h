@@ -47,7 +47,7 @@ int deleteIndex(columna c, char *operador, char *valor);
 //Retorna -1 en caso de que no haya valores que cumplan la condicion
 //Pre: la columna debe != NULL
 
-TipoRet deleteFromC(columna & c, char *operador, char *valor);
+columna deleteFromC(columna c, int index);
 //Elimina de la columna dada el primer valor que cumplan la condicion
 //Restaura el indice de cada dato para que no haya saltos entre indices
 //Pre: la columna debe != NULL.
