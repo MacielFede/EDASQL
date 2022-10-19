@@ -47,8 +47,15 @@ bool esPrimaryKey(columna c){
      return (strcasecmp(c->calificador , "PRIMARY_KEY") == 0);
 }
 
-void insertIntoC(columna & c, char *valorTupla){
-     return insertIntoDS(c->ds, valorTupla);
+int insertionIndC(columna pk, char *valor){
+     if(pk->ds == NULL)
+          return 0;
+     else
+          return insertionIndDS(pk->ds, valor, pk->tipoDato);
+}
+
+void insertIntoC(columna & c, char *valorTupla, unsigned int insertionIndex){
+     c->ds = insertIntoDS(c->ds, valorTupla, insertionIndex);
 }
 
 int deleteIndex(columna c, char *operador, char *valor){
@@ -59,4 +66,11 @@ columna deleteFromC(columna c, int index){
      c->ds = deleteFromDS(c->ds, index);
      return c;
 }
+
+columna deleteAllC(columna c){
+	c->ds = deleteAllDS(c->ds);
+	delete c;
+	return c;
+}
+
 

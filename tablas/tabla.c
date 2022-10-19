@@ -37,14 +37,17 @@ tabla insertarTabla(tabla t, char *nombreT){
 TipoRet insertIntoT(tabla & t, char *columnasTupla[], char *valoresTupla[]){
      unsigned int iter = 0;
      bool primaryK = false;
+     unsigned int pkIndex;
      while(columnasTupla[iter] != NULL && !primaryK){
-          if(esPrimaryKey(buscarColumna(t->cs, columnasTupla[iter]))) 
+          columna pk = buscarColumna(t->cs, columnasTupla[iter]);
+          if(esPrimaryKey(pk)){
                primaryK = true;
-          else
+               pkIndex = insertionInd(pk, valoresTupla[iter]);
+          }else
                iter++;
      }
      if(primaryK)
-          return insertIntoCS(t->cs, columnasTupla, valoresTupla);
+          return insertIntoCS(t->cs, columnasTupla, valoresTupla, pkIndex);
      else{
           cout << "Intentaste dejar la primary key en EMPTY o no indicaste una columna existente" << endl;
           return ERROR;
@@ -60,3 +63,9 @@ TipoRet deleteFromT(tabla & t, char *col, char *operador, char *valor){
           return deleteFromCS(t->cs , aux, operador, valor);
      }
 }
+
+void printMetadataT(tabla t){
+	cout << "Tabla: " << t->nombre << endl;
+	printMetadataCS(t->cs);
+}
+

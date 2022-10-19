@@ -62,10 +62,18 @@ TipoRet deleteFrom (bd & bd, char *nombreTabla, char *condicionEliminar){
 		return ERROR;
 	}else{
 		tabla aux = buscarTabla(bd->ts, nombreTabla);
-		char operador = getOperador(condicionEliminar);
+		char *operador = new(char);
+		if(strstr(condicionEliminar, "<") != NULL)
+			operador = strstr(condicionEliminar, "<");
+		else if(strstr(condicionEliminar, ">") != NULL)
+			operador = strstr(condicionEliminar, ">");
+		else if(strstr(condicionEliminar, "=") != NULL)
+			operador = strstr(condicionEliminar, "=");
+		else
+			operador = strstr(condicionEliminar, "!");
 		char *col = strtok(condicionEliminar, "<>=!");
 		char *valor = strtok(NULL, "<>=!");
-		return ERROR; //deleteFromTS(aux, col, operador, valor);
+		return deleteFromTS(aux, col, operador, valor);
 	}
 }
 
@@ -115,8 +123,14 @@ TipoRet printTables(bd bd){
 }
 
 TipoRet printMetadata(bd bd, char *nombreTabla){
-	//cout << " - printMetadata " << nombreTabla << endl;
-	return NO_IMPLEMENTADA;
+	if(!encontreTS(bd->ts, nombreTabla)){
+		cout << "La tabla indicada no existe."<< endl;
+		return ERROR;
+	}else{
+		tabla aux = buscarTabla(bd->ts, nombreTabla);
+		printMetadataTS(aux);
+		return OK;
+	}
 }
 
 TipoRet undo(bd & bd){
@@ -134,9 +148,3 @@ bd destroyBD(bd & bd){
 	return NULL;
 }
 
-char getOperador(char string[]){
-	unsigned int iter = 0;
-	while(string[iter] != '<' && string[iter] != '>' && string[iter] != '=' && string[iter] != '!')
-		iter++;
-	return string[iter];
-}

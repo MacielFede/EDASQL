@@ -38,7 +38,11 @@ bool esPrimaryKey(columna c);
 //Retorna true si la columna es primary key, false en caso contrario
 //Pre: c debe ser != NULL
 
-void insertIntoC(columna & c, char *valoresTupla);
+int insertionIndC(columna pk, char *valor);
+//Chequea que la columna tenga un dato para retornar el indice de insercion de un nuevo dato
+//Pre: pk debe ser la primary key de la tabla
+
+void insertIntoC(columna & c, char *valoresTupla, unsigned int insertionIndex);
 //Chequea que las columnas existan y que una de ellas sea pk, para luego insertar los datos.
 //Pre: la tabla t debe existir y debe tener al menos 1 columna
 
@@ -51,5 +55,8 @@ columna deleteFromC(columna c, int index);
 //Elimina de la columna dada el primer valor que cumplan la condicion
 //Restaura el indice de cada dato para que no haya saltos entre indices
 //Pre: la columna debe != NULL.
+
+columna deleteAllC(columna c);
+//Elimina la columna y todos sus datos
 
 #endif

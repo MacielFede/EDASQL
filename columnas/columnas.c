@@ -42,7 +42,11 @@ columnas revovinarCS(columnas cs){
      return cs;
 }
 
-TipoRet insertIntoCS(columnas & cs, char *columnasTupla[], char *valoresTupla[]){
+int insertionInd(columna pk, char *valor){
+     return insertionIndC(pk, valor);
+}
+
+TipoRet insertIntoCS(columnas & cs, char *columnasTupla[], char *valoresTupla[], unsigned int insertionIndex){
      unsigned int iter;
      char empty[] = "EMPTY";
      while(cs != NULL){
@@ -52,7 +56,7 @@ TipoRet insertIntoCS(columnas & cs, char *columnasTupla[], char *valoresTupla[])
           if(columnasTupla[iter] != NULL){ //Encontre la columna
                if(esPrimaryKey(cs->c) &&  mismoTipoDato(cs->c, valoresTupla[iter]) && !seRepiteDato(listaDatos(cs->c), valoresTupla[iter]) ){ 
                     //Chequeamos que no se repita el dato si es primary key, que sea el mismo tipo de dato el que vamos a insertar
-                    insertIntoC(cs->c, valoresTupla[iter]);
+                    insertIntoC(cs->c, valoresTupla[iter], insertionIndex);
                }else if(esPrimaryKey(cs->c) && (strcasecmp(valoresTupla[iter], "EMPTY") == 0 || seRepiteDato(listaDatos(cs->c), valoresTupla[iter]))){
                     cout << "El dato de la primary key se repite o intentaste dejarlo vacio" << endl;
                     return ERROR;
@@ -63,14 +67,14 @@ TipoRet insertIntoCS(columnas & cs, char *columnasTupla[], char *valoresTupla[])
                     cout << "La columna " << nombreC(cs->c) << " no acepta valor empty" << endl;
                     return ERROR;
                }else
-                    insertIntoC(cs->c, valoresTupla[iter]);
+                    insertIntoC(cs->c, valoresTupla[iter], insertionIndex);
           }else{
           //Si no encuentro la columna quiere decir que le tengo que poner un valor empty
                if(strcasecmp(calificadorC(cs->c), "NOT_EMPTY") == 0){
                     cout << "La columna " << nombreC(cs->c) << " no acepta valor empty" << endl;
                     return ERROR;
                }else
-                    insertIntoC(cs->c, empty);
+                    insertIntoC(cs->c, empty, insertionIndex);
           }
           cs = cs->sig;
      }
@@ -81,7 +85,7 @@ TipoRet insertIntoCS(columnas & cs, char *columnasTupla[], char *valoresTupla[])
 TipoRet deleteFromCS(columnas & cs, columna c, char *operador, char *valor){
      if(strcmp(valor, "") == 0 || (strcasecmp(valor, "EMPTY") == 0 && strcasecmp(calificadorC(c), "NOT_EMPTY") == 0)){
           //Se borran todas las tuplas
-          //cs = deleteAll();
+          cs = deleteAll(cs);
      }else if(strcasecmp(valor, "EMPTY") == 0 && (strcmp(operador, "<") == 0 || strcmp(operador, ">") == 0)){
           //No hago nada
      }else{
@@ -98,3 +102,37 @@ TipoRet deleteFromCS(columnas & cs, columna c, char *operador, char *valor){
      }
           return OK;
 }
+
+columnas deleteAll(columnas cs){
+	if( cs != NULL){
+		while(cs != NULL){
+			columnas aux = cs;
+			cs = cs->sig;
+			aux->c = deleteAllC(aux->c);
+			delete aux;
+		}
+	}
+	return cs;
+}
+
+
+void printMetadataCS(columnas cs){
+	if(cs != NULL){
+		cout << "Columna: " << nombreC(cs->c) <<"(" << tipoDatoC(cs->c) << "," << calificadorC(cs->c) << ")" << endl;
+		printMetadataCS(cs->sig);
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

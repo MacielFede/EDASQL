@@ -27,4 +27,7 @@ TipoRet deleteFromT(tabla & t, char *col, char *operador, char *valor);
 //Elimina las tuplas que cumplan la condicion dada
 //Pre: la tabla dada debe ser != NULL
 
+void printMetadataT(tabla t);
+//Imprime la metadata de la tabla indicada
+
 #endif

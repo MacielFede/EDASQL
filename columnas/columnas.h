@@ -21,7 +21,10 @@ columnas revovinarCS(columnas cs);
 //Devuelve la primer posicion de la lista de columnas
 //Pre: la lista debe tener al menos 1 elemento
 
-TipoRet insertIntoCS(columnas & cs, char *columnasTupla[], char *valoresTupla[]);
+int insertionInd(columna pk, char *valor);
+//Retorna el indice donde se debe insertar el nuevo dato
+
+TipoRet insertIntoCS(columnas & cs, char *columnasTupla[], char *valoresTupla[], unsigned int insertionIndex);
 //Inserta en las columnas dadas los valores dados
 //Pre: el puntero cs debe tener un puntero a la primer columna de la tabla
 
@@ -30,6 +33,11 @@ TipoRet deleteFromCS(columnas & cs, columna c, char *operador, char *valor);
 //Pre: la lista cs debe ser un puntero a la primer posicion
 //Pre: c debe != NULL
 
+columnas deleteAll(columnas cs);
+//Elimina todas las tuplas de una columna
+//Pre: la lista cs debe ser un puntero a la primer posicion
 
+void printMetadataCS(columnas cs);
+//Imprime la metadata de cada columna
 
 #endif

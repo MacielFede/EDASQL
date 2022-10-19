@@ -58,6 +58,12 @@ TipoRet insertIntoTS(tabla & t, char *columnasTupla, char *valoresTupla){
      return insertIntoT(t, col, valores);
 }
 
-TipoRet deleteFromTs(tabla & t, char *col, char *operador, char *valor){
+TipoRet deleteFromTS(tabla & t, char *col, char *operador, char *valor){
      return deleteFromT(t, col, operador, valor);
 }
+
+
+void printMetadataTS(tabla t){
+	printMetadataT(t);
+}
+

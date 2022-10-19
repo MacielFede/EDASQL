@@ -26,9 +26,13 @@ dato insertIntoD(char *data, unsigned int index);
 bool datoVacio(dato d);
 //Retorna true si el dato es vacio, false en caso contrario
 
-void resetearIndice(dato & d);
+void resetearIndice(dato & d, bool sumo);
 //Resta 1 al indice del dato pasado
 //Pre: indice del dato debe ser > 0
+//Pre: sumo debe ser true o false, indicando si se debe sumar o restar el indice del dato
+
+dato deleteFromD(dato d);
+//Elimina el dato d y libera memoria asociada
 
 
 #endif

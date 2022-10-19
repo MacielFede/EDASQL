@@ -36,6 +36,14 @@ dato insertIntoD(char *data, unsigned int index){
      return d;
 }
 
-void resetearIndice(dato & d){
-     d->indice--;
+void resetearIndice(dato & d, bool sumo){
+     if(sumo)
+          d->indice++;
+     else
+          d->indice--;
+}
+
+dato deleteFromD(dato d){
+	delete d;
+	return d;
 }

@@ -27,25 +27,61 @@ bool seRepiteDato(datos ds, char *dato){
           return seRepiteDato(ds->sig, dato);
 }
 
-void insertIntoDS(datos & ds, char *valorTupla){
+int insertionIndDS(datos ds,char *valor, char *tipoD){
+     unsigned int iter = 0;
+     if(strcasecmp(tipoD, "STRING") == 0){
+          while(!datoVacio(ds->d) && strcmp(valor, infoDato(ds->d))  > 0){
+               iter++;
+               ds = ds->sig;
+          }
+     }else{
+          while(!datoVacio(ds->d) && atoi(valor) > atoi(infoDato(ds->d))){
+               iter++;
+               ds = ds->sig;
+          }
+     }
+          return iter;
+}
+
+datos insertIntoDS(datos ds, char *valorTupla, unsigned int insertionIndex){
      if(ds == NULL){
           ds = new(nodo_datos);
           ds->sig = NULL;
           ds->ant = NULL;
           ds->d = insertIntoD(valorTupla, 0);
+          return ds;
      }else{
-          datos ant;
-          unsigned int index = 0;
-          while(ds != NULL){
+          datos aux = new(nodo_datos), ant;
+          aux->d = insertIntoD(valorTupla, insertionIndex);
+          for (unsigned int index = 0; index < insertionIndex; index++){
                ant = ds;
                ds = ds->sig;
-               index++;
           }
-          ds = new(nodo_datos);
-          ds->sig = NULL;
-          ds->ant = ant;
-          ant->sig = ds;
-          ds->d = insertIntoD(valorTupla, index);
+          if(insertionIndex == 0){
+               aux->ant = NULL;
+               aux->sig = ds;
+               ds->ant = aux;
+               return aux;
+          }else if(ds == NULL){
+               ant->sig = aux;
+               aux->sig = NULL;
+               aux->ant = ant;
+          }else{
+               ant->sig = aux;
+               ds->ant = aux;
+               aux->ant = ant;
+               aux->sig = ds;
+          }
+          if(ds != NULL){
+               do{
+                    resetearIndice(ds->d, true);
+                    if(ds->sig != NULL)
+                         ds = ds->sig;
+               }while(ds->sig != NULL);
+          }
+          while(ant->ant != NULL)
+               ant = ant->ant;
+          return ant;
      }
 }
 
@@ -56,7 +92,7 @@ int deleteIndexDS(datos ds, char *operador,char *valor, char *tipoDato){
           while(ds != NULL){
                if(strcmp(operador, "<") == 0){
                     if(strcasecmp(tipoDato, "STRING") == 0){
-                         if(strcmp(valor, infoDato(ds->d) ) > 1)
+                         if(strcmp(valor, infoDato(ds->d) ) > 0)
                               return indiceDato(ds->d);
                     }else{
                          if(atoi(valor) > atoi(infoDato(ds->d)))
@@ -64,7 +100,7 @@ int deleteIndexDS(datos ds, char *operador,char *valor, char *tipoDato){
                     }
                }else if(strcmp(operador, ">") == 0){
                     if(strcasecmp(tipoDato, "STRING") == 0){
-                         if(strcmp(valor, infoDato(ds->d)) < 1)
+                         if(strcmp(valor, infoDato(ds->d)) < 0)
                               return indiceDato(ds->d);
                     }else{
                          if(atoi(valor) < atoi(infoDato(ds->d)))
@@ -97,15 +133,41 @@ int deleteIndexDS(datos ds, char *operador,char *valor, char *tipoDato){
 datos deleteFromDS(datos ds, int index){
      while(indiceDato(ds->d) < index)
           ds = ds->sig;
-     datos ant = ds->ant;
-     ant->sig = ds->sig;
-     ds->sig->ant = ant;
+     datos aux;
+     if(index == 0){
+          aux = ds->sig;
+          aux->ant = NULL;
+     }else if(ds->sig == NULL){
+          aux = ds->ant;
+          aux->sig = NULL;
+     }else{
+          aux = ds->sig;
+          aux->ant = ds->ant;
+          ds->ant->sig = aux;
+     }
+     if(ds->sig !=NULL){
+          do{
+               resetearIndice(aux->d, false);
+               if(aux->sig != NULL)
+                    aux = aux->sig;
+          }while(aux->sig != NULL);
+     }
+     while(aux->ant != NULL)
+          aux = aux->ant;
+     ds->d = deleteFromD(ds->d);
      delete ds;
-     do{
-          ant = ant->sig;
-          resetearIndice(ant->d);
-     }while(ant->sig != NULL);
-     while(ant->ant != NULL)
-          ant = ant->ant;
-     return ant;
+     return aux;
+}
+
+
+datos deleteAllDS(datos ds){
+	if( ds != NULL){
+		while(ds!= NULL){
+			datos aux = ds;
+			ds = ds->sig;
+			aux->d = deleteFromD(aux->d);
+			delete aux;
+		}
+	}
+	return ds;
 }

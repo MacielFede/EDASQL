@@ -22,8 +22,11 @@ TipoRet insertIntoTS(tabla & t, char *columnasTupla, char *valoresTupla);
 //Inserta en t las tuplas dadas.
 //Pre: t debe != NULL
 
-TipoRet deleteFromTs(tabla & t, char *col, char *operador, char *valor);
+TipoRet deleteFromTS(tabla & t, char *col, char *operador, char *valor);
 //Elimina de la tabla especificada las tuplas que cumplan con la condicion
 //Pre: la tabla debe != NULL
+
+void printMetadataTS(tabla t);
+//Imprime la metadata de la tabla t
 
 #endif
