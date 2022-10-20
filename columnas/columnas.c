@@ -115,10 +115,65 @@ columnas deleteAll(columnas cs){
 	return cs;
 }
 
+void printdatatableCS(columnas cs){
+     if(cs == NULL || columnaVacia(cs->c))
+          cout << "No hay datos en la tabla" <<endl;
+     else{
+          while(!esPrimaryKey(cs->c) && cs->sig!=NULL){
+               cs = cs->sig;
+          }
+          //Si tengo primary key en la tabla va a terminar justo en ella
+          //Si no tengo primary key no me interesa cual imprimo primero
+          columna aux = cs->c;
+          cs = revovinarCS(cs);
+          printNombresC(cs, aux);
+          // imprimo los nombres de las columnas
+          bool termine = false;
+          unsigned int iter = 0;
+          while(!termine){
+               if(cs->c != aux && cs->ant!=NULL)
+               //Si no estoy en la primary key y no estoy en el primer lugar imprimo
+                    printdatatableC(cs->c, iter, termine);
+               if(cs->sig == NULL){
+                    //Si estoy en el ultimo lugar itero para imprimir el resto de datos
+                    cs = revovinarCS(cs);
+                    iter++;
+               }else if(cs->ant == NULL){
+                    //Si estoy en el primer lugar imprimo la pk y la primera columna
+                    printdatatableC(aux, iter, termine);
+                    cout << ":";
+                    if(cs->c != aux){
+                    //Si justo la primer columna es la primary key no la imprimo 2 veces
+                         printdatatableC(cs->c, iter, termine);
+                         cout<< ":";
+                    }
+                    cs = cs->sig;
+               }else{
+                    //Si estoy en el medio itero
+                    if((cs->sig->c != aux || (cs->sig->c == aux && cs->sig->sig != NULL)) && cs->c != aux)
+                    //Cheque que la columna no sea pk, que la sig sea pk y que esta no sea la ultima columna y que la siguiente no sea pk
+                         cout<<":";
+                    cs = cs->sig;
+               }
+          }
+     }
+}
+
+void printNombresC(columnas cs, columna pk){
+     cout<< nombreC(pk) << ":";
+     while(cs!=NULL){
+          if(cs->c != pk){
+               if(cs->sig != NULL)
+                    cout<< nombreC(cs->c) << ":";
+               else
+                    cout << nombreC(cs->c) << endl;
+          }
+     }
+}
 
 void printMetadataCS(columnas cs){
 	if(cs != NULL){
-		cout << "Columna: " << nombreC(cs->c) <<"(" << tipoDatoC(cs->c) << "," << calificadorC(cs->c) << ")" << endl;
+		cout << "Columna: " << nombreC(cs->c) <<" (" << tipoDatoC(cs->c) << "," << calificadorC(cs->c) << ")" << endl;
 		printMetadataCS(cs->sig);
 	}
 }

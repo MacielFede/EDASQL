@@ -64,6 +64,11 @@ TipoRet deleteFromT(tabla & t, char *col, char *operador, char *valor){
      }
 }
 
+void printdatatableT(tabla t){
+     cout<< t->nombre <<endl;
+     printdatatableCS(t->cs);
+}
+
 void printMetadataT(tabla t){
 	cout << "Tabla: " << t->nombre << endl;
 	printMetadataCS(t->cs);

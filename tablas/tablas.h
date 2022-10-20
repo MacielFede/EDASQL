@@ -26,6 +26,10 @@ TipoRet deleteFromTS(tabla & t, char *col, char *operador, char *valor);
 //Elimina de la tabla especificada las tuplas que cumplan con la condicion
 //Pre: la tabla debe != NULL
 
+void printdatatableTS(tablas ts, char *nombreTabla);
+//Dada una lista de tablas imprime la informacion de la tabla indicada por su nombre
+//Pre: la tabla indicada debe existir
+
 void printMetadataTS(tabla t);
 //Imprime la metadata de la tabla t
 

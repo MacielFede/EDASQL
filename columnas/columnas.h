@@ -37,6 +37,13 @@ columnas deleteAll(columnas cs);
 //Elimina todas las tuplas de una columna
 //Pre: la lista cs debe ser un puntero a la primer posicion
 
+void printdatatableCS(columnas cs);
+//Imprime la informacion de las columnas de la tabla si es que hay informacion para imprimir
+
+void printNombresC(columnas cs, columna pk);
+//Imprime los nombres de las columnas, primero imprimiendo la columna pk
+//Pre: pk debe ser != NULL y pertenecer a cs
+
 void printMetadataCS(columnas cs);
 //Imprime la metadata de cada columna
 

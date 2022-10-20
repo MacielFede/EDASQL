@@ -73,4 +73,10 @@ columna deleteAllC(columna c){
 	return c;
 }
 
+void printdatatableC(columna c,unsigned int iter,bool &termine){
+     if(c->ds == NULL)
+          cout << "La tabla no tiene tuplas"<<endl;
+     else
+          printdatatableDS(c->ds, iter, termine);
+}
 

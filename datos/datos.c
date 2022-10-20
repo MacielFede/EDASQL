@@ -171,3 +171,15 @@ datos deleteAllDS(datos ds){
 	}
 	return ds;
 }
+
+void printdatatableDS(datos ds, unsigned int iter,bool &termine){
+     unsigned int aux = 0;
+     while (ds != NULL && aux<iter){
+          ds = ds->sig;
+          aux++;
+     }
+     if(ds == NULL)
+          termine = true;
+     else
+          cout<< infoDato(ds->d);
+}

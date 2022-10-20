@@ -113,8 +113,13 @@ TipoRet minus_(bd & bd, char * nombreTabla1, char * nombreTabla2, char * nombreT
 }
 
 TipoRet printdatatable (bd bd, char *NombreTabla){
-	//cout << " - printdatatable " << NombreTabla << endl;
-	return NO_IMPLEMENTADA;
+	if(!encontreTS(bd->ts, NombreTabla)){
+		cout << "La tabla indicada no existe."<< endl;
+		return ERROR;
+	}else{
+		printdatatableTS(bd->ts, NombreTabla);
+		return OK;
+	}
 }
 
 TipoRet printTables(bd bd){

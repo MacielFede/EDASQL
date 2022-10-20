@@ -59,4 +59,7 @@ columna deleteFromC(columna c, int index);
 columna deleteAllC(columna c);
 //Elimina la columna y todos sus datos
 
+void printdatatableC(columna c,unsigned int iter,bool &termine);
+//Imprime el dato de la columna en esa posicion, si no hay datos imprime un mensaje
+
 #endif

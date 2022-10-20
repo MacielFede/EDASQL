@@ -62,6 +62,10 @@ TipoRet deleteFromTS(tabla & t, char *col, char *operador, char *valor){
      return deleteFromT(t, col, operador, valor);
 }
 
+void printdatatableTS(tablas ts, char *nombreTabla){
+     tabla aux = buscarTabla(ts, nombreTabla);
+     printdatatableT(aux);
+}
 
 void printMetadataTS(tabla t){
 	printMetadataT(t);

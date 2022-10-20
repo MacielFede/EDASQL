@@ -31,4 +31,9 @@ datos deleteFromDS(datos ds, int index);
 datos deleteAllDS(datos ds);
 //Elimina todos los datos de la columna
 
+void printdatatableDS(datos ds, unsigned int iter,bool &termine);
+//Imprime el dato de una columna en la posicion iter y pasa termine a false si termino de imprimir todos los datos
+//Pre: ds debe ser el puntero a la primer posicion de la lista
+//Pre: la columna debe tener tanta cantidad de datos como iter
+
 #endif
