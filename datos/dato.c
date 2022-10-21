@@ -28,7 +28,7 @@ bool datoVacio(dato d){
      return (d == NULL);
 }
 
-dato insertIntoD(char *data, unsigned int index){
+dato insertIntoD(const char *data, unsigned int index){
      dato d = new(nodo_dato);
      d->info = new(char[MAX_VALOR]);
      strcpy(d->info ,data);

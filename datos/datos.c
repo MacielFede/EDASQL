@@ -43,7 +43,7 @@ int insertionIndDS(datos ds,char *valor, char *tipoD){
           return iter;
 }
 
-datos insertIntoDS(datos ds, char *valorTupla, unsigned int insertionIndex){
+datos insertIntoDS(datos ds,const char *valorTupla, unsigned int insertionIndex){
      if(ds == NULL){
           ds = new(nodo_datos);
           ds->sig = NULL;

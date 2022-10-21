@@ -54,7 +54,7 @@ int insertionIndC(columna pk, char *valor){
           return insertionIndDS(pk->ds, valor, pk->tipoDato);
 }
 
-void insertIntoC(columna & c, char *valorTupla, unsigned int insertionIndex){
+void insertIntoC(columna & c, const char *valorTupla, unsigned int insertionIndex){
      c->ds = insertIntoDS(c->ds, valorTupla, insertionIndex);
 }
 

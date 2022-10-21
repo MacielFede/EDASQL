@@ -42,7 +42,7 @@ int insertionIndC(columna pk, char *valor);
 //Chequea que la columna tenga un dato para retornar el indice de insercion de un nuevo dato
 //Pre: pk debe ser la primary key de la tabla
 
-void insertIntoC(columna & c, char *valoresTupla, unsigned int insertionIndex);
+void insertIntoC(columna & c, const char *valoresTupla, unsigned int insertionIndex);
 //Chequea que las columnas existan y que una de ellas sea pk, para luego insertar los datos.
 //Pre: la tabla t debe existir y debe tener al menos 1 columna
 

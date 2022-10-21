@@ -24,6 +24,10 @@ columnas revovinarCS(columnas cs);
 int insertionInd(columna pk, char *valor);
 //Retorna el indice donde se debe insertar el nuevo dato
 
+bool tienePK(columnas cs);
+//Retorna true si la tabla tiene primary key, false en caso contrario
+//Pre: la tabla debe tener al menos una columna != NULL
+
 TipoRet insertIntoCS(columnas & cs, char *columnasTupla[], char *valoresTupla[], unsigned int insertionIndex);
 //Inserta en las columnas dadas los valores dados
 //Pre: el puntero cs debe tener un puntero a la primer columna de la tabla

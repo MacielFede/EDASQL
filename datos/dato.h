@@ -18,7 +18,7 @@ int indiceDato(dato d);
 //Retorna el indice de un dato
 //Pre: el dato debe != NULL
 
-dato insertIntoD(char *data, unsigned int index);
+dato insertIntoD(const char *data, unsigned int index);
 //Inserta el dato pasado
 //Pre: Si la columna es la primaryKey de la tupla no debemos pasar un dato repetido.
 //Pre: Si la columna es de calificador notEmpty no podemos pasarle EMPTY como dato.

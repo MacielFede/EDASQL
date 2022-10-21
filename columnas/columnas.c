@@ -46,10 +46,19 @@ int insertionInd(columna pk, char *valor){
      return insertionIndC(pk, valor);
 }
 
+bool tienePK(columnas cs){
+     if(cs == NULL)
+          return false;
+     else if(esPrimaryKey(cs->c))
+          return true;
+     else 
+          return tienePK(cs->sig);
+}
+
 TipoRet insertIntoCS(columnas & cs, char *columnasTupla[], char *valoresTupla[], unsigned int insertionIndex){
      unsigned int iter;
-     char empty[] = "EMPTY";
-     while(cs != NULL){
+     bool termine = false;
+     while(!termine){
           iter = 0;
           while(columnasTupla[iter] != NULL && strcmp(nombreC(cs->c), columnasTupla[iter]) != 0)
                iter++;
@@ -74,11 +83,14 @@ TipoRet insertIntoCS(columnas & cs, char *columnasTupla[], char *valoresTupla[],
                     cout << "La columna " << nombreC(cs->c) << " no acepta valor empty" << endl;
                     return ERROR;
                }else
-                    insertIntoC(cs->c, empty, insertionIndex);
+                    insertIntoC(cs->c, "EMPTY", insertionIndex);
           }
-          cs = cs->sig;
+          if(cs->sig == NULL){
+               cs = revovinarCS(cs);
+               termine = true;
+          }else
+               cs = cs->sig;
      }
-     cs = revovinarCS(cs);
      return OK;
 }
 

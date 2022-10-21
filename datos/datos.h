@@ -17,7 +17,7 @@ int insertionIndDS(datos ds,char *valor, char *tipoD);
 //Retorna el indice donde se va a insertar la nueva tupla
 //Pre: ds debe ser un puntero a la primer posicion de la lista.
 
-datos insertIntoDS(datos ds, char *valorTupla, unsigned int insertionIndex);
+datos insertIntoDS(datos ds,const char *valorTupla, unsigned int insertionIndex);
 //Inserta el dato pasado en la lista de datos
 //Pre: ds debe ser un puntero al primer elemento de la lista de datos
 

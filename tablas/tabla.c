@@ -35,23 +35,27 @@ tabla insertarTabla(tabla t, char *nombreT){
 }
 
 TipoRet insertIntoT(tabla & t, char *columnasTupla[], char *valoresTupla[]){
-     unsigned int iter = 0;
-     bool primaryK = false;
-     unsigned int pkIndex;
-     while(columnasTupla[iter] != NULL && !primaryK){
-          columna pk = buscarColumna(t->cs, columnasTupla[iter]);
-          if(esPrimaryKey(pk)){
-               primaryK = true;
-               pkIndex = insertionInd(pk, valoresTupla[iter]);
-          }else
-               iter++;
-     }
-     if(primaryK)
-          return insertIntoCS(t->cs, columnasTupla, valoresTupla, pkIndex);
-     else{
-          cout << "Intentaste dejar la primary key en EMPTY o no indicaste una columna existente" << endl;
-          return ERROR;
-     }
+     if(tienePK(t->cs)){
+          unsigned int iter = 0;
+          bool primaryK = false;
+          unsigned int pkIndex;
+          while(columnasTupla[iter] != NULL && !primaryK){
+               if(esPrimaryKey(buscarColumna(t->cs, columnasTupla[iter]))){
+                    primaryK = true;
+                    columna pk = buscarColumna(t->cs, columnasTupla[iter]);
+                    pkIndex = insertionInd(pk, valoresTupla[iter]);
+               }else
+                    iter++;
+          }
+          if(primaryK)
+               return insertIntoCS(t->cs, columnasTupla, valoresTupla, pkIndex);
+          else{
+               cout << "Intentaste dejar la primary key en EMPTY o no indicaste una columna existente" << endl;
+               return ERROR;
+          }
+     }else
+          //Si no tengo primary key inserto en el primer lugar
+          return insertIntoCS(t->cs, columnasTupla, valoresTupla, 0);
 }
 
 TipoRet deleteFromT(tabla & t, char *col, char *operador, char *valor){
