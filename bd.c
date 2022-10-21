@@ -123,8 +123,13 @@ TipoRet printdatatable (bd bd, char *NombreTabla){
 }
 
 TipoRet printTables(bd bd){
-	//cout << " - printTables " << endl;
-	return NO_IMPLEMENTADA;
+	if(bd->ts == NULL)
+		cout << "No hay tablas para mostrar"<< endl;
+	else{
+		printTablesTS(bd->ts);
+		cout<< endl;
+	}
+	return OK;
 }
 
 TipoRet printMetadata(bd bd, char *nombreTabla){

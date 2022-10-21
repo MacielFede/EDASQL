@@ -30,6 +30,9 @@ void printdatatableTS(tablas ts, char *nombreTabla);
 //Dada una lista de tablas imprime la informacion de la tabla indicada por su nombre
 //Pre: la tabla indicada debe existir
 
+void printTablesTS(tablas ts);
+//Imprime los nombres de las tablas existentes en la base de datos
+
 void printMetadataTS(tabla t);
 //Imprime la metadata de la tabla t
 

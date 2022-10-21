@@ -73,6 +73,10 @@ void printdatatableT(tabla t){
      printdatatableCS(t->cs);
 }
 
+void printTablesT(tabla t){
+     cout<< t->nombre << "; ";
+}
+
 void printMetadataT(tabla t){
 	cout << "Tabla: " << t->nombre << endl;
 	printMetadataCS(t->cs);

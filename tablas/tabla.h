@@ -31,6 +31,9 @@ void printdatatableT(tabla t);
 //Dada una tabla imprime toda la informacion contenida
 //Pre: la tabla debe != NULL
 
+void printTablesT(tabla t);
+//Imprime el nombre de la tabla dada
+//Pre:la tabla t debe ser != NULL
 
 void printMetadataT(tabla t);
 //Imprime la metadata de la tabla indicada

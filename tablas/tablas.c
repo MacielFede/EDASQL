@@ -67,6 +67,14 @@ void printdatatableTS(tablas ts, char *nombreTabla){
      printdatatableT(aux);
 }
 
+void printTablesTS(tablas ts){
+     if(ts!=NULL){
+          printTablesTS(ts->izq);
+          printTablesT(ts->t);
+          printTablesTS(ts->der);
+     }
+}
+
 void printMetadataTS(tabla t){
 	printMetadataT(t);
 }
