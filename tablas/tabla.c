@@ -35,27 +35,40 @@ tabla insertarTabla(tabla t, char *nombreT){
 }
 
 TipoRet insertIntoT(tabla & t, char *columnasTupla[], char *valoresTupla[]){
+     unsigned int iter = 0;
+     bool mePasanPk = false;
      if(tienePK(t->cs)){
-          unsigned int iter = 0;
-          bool primaryK = false;
           unsigned int pkIndex;
-          while(columnasTupla[iter] != NULL && !primaryK){
+          while(columnasTupla[iter] != NULL && !mePasanPk){
                if(esPrimaryKey(buscarColumna(t->cs, columnasTupla[iter]))){
-                    primaryK = true;
+                    mePasanPk = true;
                     columna pk = buscarColumna(t->cs, columnasTupla[iter]);
                     pkIndex = insertionInd(pk, valoresTupla[iter]);
                }else
                     iter++;
           }
-          if(primaryK)
+          if(mePasanPk)
                return insertIntoCS(t->cs, columnasTupla, valoresTupla, pkIndex);
           else{
-               cout << "Intentaste dejar la primary key en EMPTY o no indicaste una columna existente" << endl;
+               cout << "Intentaste dejar la primary key en EMPTY" << endl;
                return ERROR;
           }
-     }else
+     }else{
           //Si no tengo primary key inserto en el primer lugar
-          return insertIntoCS(t->cs, columnasTupla, valoresTupla, 0);
+          //mePasanPk lo uso para saber si me pasan una columna valida
+          while(columnasTupla[iter] != NULL && !mePasanPk){
+               if(buscarColumna(t->cs, columnasTupla[iter]) != NULL){
+                    mePasanPk = true;
+               }else
+                    iter++;
+          }
+          if(mePasanPk)
+               return insertIntoCS(t->cs, columnasTupla, valoresTupla, 0);
+          else{
+               cout << "No ingresaste ninguna columna existente en la tabla" << endl;
+               return ERROR;
+          }
+     }
 }
 
 TipoRet deleteFromT(tabla & t, char *col, char *operador, char *valor){
