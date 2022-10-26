@@ -81,6 +81,14 @@ TipoRet deleteFromT(tabla & t, char *col, char *operador, char *valor){
      }
 }
 
+TipoRet addColT (tabla &t, char *NombreCol, char *tipoCol, char *calificadorCol){
+	return addColCS (t->cs, NombreCol, tipoCol, calificadorCol);
+}
+
+TipoRet dropColT (tabla &t, char* NombreCol){
+	return dropColCS (t->cs,NombreCol);
+}
+
 void printdatatableT(tabla t){
      cout<< t->nombre <<endl;
      printdatatableCS(t->cs);

@@ -36,6 +36,15 @@ dato insertIntoD(const char *data, unsigned int index){
      return d;
 }
 
+
+
+dato datoEmpty (int i){
+	dato d = new (nodo_dato);
+	strcpy(d -> info, "EMPTY");
+	d -> indice = i;
+	return d;
+}
+
 void resetearIndice(dato & d, bool sumo){
      if(sumo)
           d->indice++;

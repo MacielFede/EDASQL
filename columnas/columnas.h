@@ -41,6 +41,20 @@ columnas deleteAll(columnas cs);
 //Elimina todas las tuplas de una columna
 //Pre: la lista cs debe ser un puntero a la primer posicion
 
+int cantidadTuplas (columnas cs);
+// Retorna la cantidad de tuplas que tiene la tabla.
+// Pre: cs apunta a la primer Columna.
+
+TipoRet addColCS (columnas & cs, char *NombreCol, char *tipoCol, char *calificadorCol);
+// Agrega a las columnas cs, una nueva columna al final de nombre nombreCol,
+// si ésta no existe. Si la tabla tiene tuplas el nuevo campo tendrá el valor EMPTY en cada tupla. Por lo
+// tanto, en el caso de que la tabla tenga tuplas, no es válido que se agregue un calificador distinto de ANY.
+// Tampoco es válido que calificadorCol sea PRIMARY KEY si existe ya una columna con dicho calificador en la
+// tabla nombreTabla.
+
+TipoRet dropColCS (columnas &cs, char* NombreCol);
+// Elimina de las columnas cs la columna NombreCol.
+
 void printdatatableCS(columnas cs);
 //Imprime la informacion de las columnas de la tabla si es que hay informacion para imprimir
 

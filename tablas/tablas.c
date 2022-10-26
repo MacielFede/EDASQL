@@ -62,6 +62,31 @@ TipoRet deleteFromTS(tabla & t, char *col, char *operador, char *valor){
      return deleteFromT(t, col, operador, valor);
 }
 
+TipoRet addColTS (tablas & ts, char *nombreTabla, char *NombreCol, char *tipoCol, char *calificadorCol){
+	tablas aux = ts;
+	while((aux->der != NULL) && (strcmp(nombreTabla,nombreT(aux->t))!=0)){
+		aux=aux -> der;
+	}
+		if (aux->der == NULL){
+			cout << "No se encontro la tabla especificada" <<endl;
+			return ERROR; 
+		}else	
+			return addColT (aux->t, NombreCol, tipoCol, calificadorCol);
+}
+
+TipoRet dropColTS (tablas &ts, char* nombreTabla, char* NombreCol){
+	tablas aux = ts;
+	while((aux->der != NULL) && (strcmp(nombreTabla,nombreT(aux->t))!=0)){
+		aux=aux -> der;
+	}
+		if (aux->der == NULL){
+			cout << "No se encontro la tabla especificada" <<endl;
+			return ERROR; 
+		}else	
+			return dropColT (aux->t, NombreCol);
+}
+
+
 void printdatatableTS(tablas ts, char *nombreTabla){
      tabla aux = buscarTabla(ts, nombreTabla);
      printdatatableT(aux);

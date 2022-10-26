@@ -21,6 +21,17 @@ datos insertIntoDS(datos ds,const char *valorTupla, unsigned int insertionIndex)
 //Inserta el dato pasado en la lista de datos
 //Pre: ds debe ser un puntero al primer elemento de la lista de datos
 
+int cuentaTuplasDs(datos ds);
+// Retorna la cantidad de tuplas.
+
+datos llenaEmpty(int n);
+// Crea n campos con dato EMPTY.
+// Pre: n>0
+
+datos suprDatos (datos ds);
+// Destruye los datos y libera la memoria asociada.
+// Pre: El puntero ds apunta al inicio de la lista
+
 int deleteIndexDS(datos ds, char *operador,char *valor, char *tipoDato);
 //Retorna el index del primer dato que cumple la condicion
 

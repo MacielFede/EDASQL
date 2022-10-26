@@ -32,13 +32,31 @@ TipoRet dropTable (bd & bd, char *nombreTabla){
 }
 
 TipoRet addCol (bd & bd, char *nombreTabla, char *NombreCol, char *tipoCol, char *calificadorCol){
-	//cout << " - addCol " << nombreTabla << " " << NombreCol << " " << tipoCol << " " << calificadorCol << endl;;
-	return NO_IMPLEMENTADA;
+	if (strlen (nombreTabla) == 0){
+		cout << "No se especifico el nombre de Tabla." <<endl;
+		return ERROR;
+	}else if (strlen (NombreCol)== 0){
+		cout << "No se especifico el nombre de la Columna Nueva." <<endl;
+		return ERROR;
+	}else if (strlen (tipoCol)== 0){
+		cout << "No se especifico el Tipo de Datos." <<endl;
+		return ERROR;
+	}else if (strlen (calificadorCol)== 0){
+		cout << "No se especifico el Calificador." <<endl;
+		return ERROR;
+	}else
+		return addColTS (bd->ts, nombreTabla, NombreCol, tipoCol, calificadorCol);
 }
 
 TipoRet dropCol (bd & bd, char *nombreTabla, char *NombreCol){
-	//cout << " - dropCol " << nombreTabla << " " << NombreCol << endl;;
-	return NO_IMPLEMENTADA;
+	if (strlen (nombreTabla) == 0){
+		cout << "No se especifico el nombre de Tabla." <<endl;
+		return ERROR;
+	}else if (strlen (NombreCol)== 0){
+		cout << "No se especifico el nombre de la Columna." <<endl;
+		return ERROR;
+	}else
+		return dropColTS (bd->ts, nombreTabla, NombreCol);
 }
 
 TipoRet alterCol (bd & bd, char * nombreTabla, char * nombreCol, char *tipoColNuevo, char *calificadorColNuevo, char *nombreColNuevo){

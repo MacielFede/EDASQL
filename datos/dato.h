@@ -23,6 +23,9 @@ dato insertIntoD(const char *data, unsigned int index);
 //Pre: Si la columna es la primaryKey de la tupla no debemos pasar un dato repetido.
 //Pre: Si la columna es de calificador notEmpty no podemos pasarle EMPTY como dato.
 
+dato datoEmpty (int i);
+// Genera un dato con el valor EMPTY e indice i 
+
 bool datoVacio(dato d);
 //Retorna true si el dato es vacio, false en caso contrario
 

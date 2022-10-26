@@ -85,6 +85,49 @@ datos insertIntoDS(datos ds,const char *valorTupla, unsigned int insertionIndex)
      }
 }
 
+int cuentaTuplasDs(datos ds){
+	int max = indiceDato (ds-> d);
+	int actual;
+	datos iter=ds;
+	while (iter->sig != NULL){
+		actual=indiceDato (iter->d);
+		if (max < actual)
+			max = actual;
+		iter=iter->sig;
+	}
+	return max;
+}
+
+datos llenaEmpty(int tups){
+	
+	datos iter = NULL;
+	datos ds = NULL;
+	for (int i=0; i<tups; i++){
+		datos aux = new (nodo_datos); 
+		aux -> d = datoEmpty (i);
+		aux -> ant = iter; 
+		aux -> sig = NULL;
+		if (i==0)
+			ds = aux;
+		else 
+			aux->ant->sig=aux;
+		iter = aux;
+	}
+	return ds;
+}
+
+datos suprDatos (datos ds){
+	if (ds != NULL){
+		while (ds != NULL){
+			datos aux = ds;
+			ds = ds -> sig;
+			aux -> d = deleteFromD (ds -> d);
+			delete aux;
+		}
+	}
+	return ds;
+}
+
 int deleteIndexDS(datos ds, char *operador,char *valor, char *tipoDato){
      if(ds == NULL || datoVacio(ds->d)){
           return -1;

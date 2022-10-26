@@ -46,6 +46,15 @@ void insertIntoC(columna & c, const char *valoresTupla, unsigned int insertionIn
 //Chequea que las columnas existan y que una de ellas sea pk, para luego insertar los datos.
 //Pre: la tabla t debe existir y debe tener al menos 1 columna
 
+int cuentaTuplas(columna col);
+//Retorna la cantidad de tuplas de la columna
+
+columna nuevaCol(int tups, char *NombreCol, char *tipoCol, char *calificadorCol);
+//Crea una columna nueva
+
+columna dropColC (columna c);
+// Elimina la Columna c y libera la memoria asociada.
+
 int deleteIndex(columna c, char *operador, char *valor);
 //Dada una columna retorna el indice del primer valor que cumple con la condicion dada
 //Retorna -1 en caso de que no haya valores que cumplan la condicion

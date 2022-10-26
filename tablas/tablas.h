@@ -36,4 +36,14 @@ void printTablesTS(tablas ts);
 void printMetadataTS(tabla t);
 //Imprime la metadata de la tabla t
 
+TipoRet addColTS (tablas & ts, char *nombreTabla, char *NombreCol, char *tipoCol, char *calificadorCol);
+// Agrega a la tabla de nombre nombreTabla, si ésta existe, una nueva columna al final de nombre nombreCol,
+// si ésta no existe. Si la tabla tiene tuplas el nuevo campo tendrá el valor EMPTY en cada tupla. Por lo
+// tanto, en el caso de que la tabla tenga tuplas, no es válido que se agregue un calificador distinto de ANY.
+// Tampoco es válido que calificadorCol sea PRIMARY KEY si existe ya una columna con dicho calificador en la
+// tabla nombreTabla.
+
+TipoRet dropColTS (tablas & ts, char* nombreTabla, char* NombreCol);
+// Elimina de la tabla nombreTabla, si ésta existe, la columna NombreCol
+
 #endif

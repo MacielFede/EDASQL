@@ -27,6 +27,15 @@ TipoRet deleteFromT(tabla & t, char *col, char *operador, char *valor);
 //Elimina las tuplas que cumplan la condicion dada
 //Pre: la tabla dada debe ser != NULL
 
+TipoRet addColT (tabla &t, char *NombreCol, char *tipoCol, char *calificadorCol);
+// Agrega a la tabla t una columna de Nombre NombreCol, tipo tipoCol y calificador calificadorCol
+// Pre: La tabla t existe
+
+TipoRet dropColT (tabla &t, char* NombreCol);
+// Elimina de la tabla t la columna NombreCol.
+// Pre: La tabla t existe
+
+
 void printdatatableT(tabla t);
 //Dada una tabla imprime toda la informacion contenida
 //Pre: la tabla debe != NULL

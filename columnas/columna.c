@@ -58,6 +58,29 @@ void insertIntoC(columna & c, const char *valorTupla, unsigned int insertionInde
      c->ds = insertIntoDS(c->ds, valorTupla, insertionIndex);
 }
 
+int cuentaTuplas(columna col){
+	return cuentaTuplasDs(col->ds);
+}
+
+columna nuevaCol(int tups,char *NombreCol, char *tipoCol, char *calificadorCol){
+	columna col = new (nodo_columna);
+	strcpy(col -> tipoDato, tipoCol);
+	strcpy(col -> calificador, calificadorCol);
+	strcpy(col -> nombre, NombreCol);
+	if (tups>0)
+		col -> ds = llenaEmpty(tups);
+	else
+		col -> ds = NULL;
+	return col;
+}
+
+columna dropColC (columna c){
+	if (cuentaTuplasDs(c->ds)>0)
+		c -> ds = suprDatos (c->ds);
+	delete c;
+	return NULL;
+}
+
 int deleteIndex(columna c, char *operador, char *valor){
      return deleteIndexDS(c->ds, operador, valor, c->tipoDato);
 }
