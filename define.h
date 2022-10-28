@@ -17,5 +17,8 @@
 enum _retorno{OK, ERROR, NO_IMPLEMENTADA};
 typedef enum _retorno TipoRet;
 
+int max(int a, int b);
+// Retorna el maximo de a y b.
+
 
 #endif

@@ -10,14 +10,14 @@
 
 typedef struct nodo_tabla * tabla;
 
-tabla crearTabla();
-//Crea la tabla vacía (retorna NULL)
+tabla createTableT(tabla t,char *nombreTabla);
+//Crea la tabla sin columnas.
+
+tabla dropTableT(tabla t);
+//Elimina la tabla y todas sus tuplas
 
 char * nombreT(tabla t);
 //Retorna el nombre de t
-
-tabla insertarTabla(tabla t, char *nombreT);
-//Crea la tabla t y le asigna un nombre, dejando las columnas en NULL;
 
 TipoRet insertIntoT(tabla & t, char *columnasTupla[], char *valoresTupla[]);
 //Inserta la los valores indicados en las columnas indicadas de la tabla indicada (chequea que haya columnas existentes)

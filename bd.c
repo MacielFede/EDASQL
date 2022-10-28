@@ -23,12 +23,23 @@ bd createBD(){
 }
 
 TipoRet createTable (bd & bd, char *nombreTabla){
-	return NO_IMPLEMENTADA;
+	if(encontreTS(bd->ts, nombreTabla)){
+		cout << "La tabla indicada ya existe."<< endl;
+		return ERROR;
+	}else{
+		bd->ts = createTableTS(bd->ts, nombreTabla);
+		return OK;
+	}
 }
 
 TipoRet dropTable (bd & bd, char *nombreTabla){
-	//cout << " - dropTable " << nombreTabla << endl;;
-	return NO_IMPLEMENTADA;
+	if(!encontreTS(bd->ts, nombreTabla)){
+		cout << "La tabla indicada no existe."<< endl;
+		return ERROR;
+	}else{
+		bd->ts = dropTableTS(bd->ts, nombreTabla);
+		return OK;
+	}
 }
 
 TipoRet addCol (bd & bd, char *nombreTabla, char *NombreCol, char *tipoCol, char *calificadorCol){
@@ -82,15 +93,19 @@ TipoRet deleteFrom (bd & bd, char *nombreTabla, char *condicionEliminar){
 		tabla aux = buscarTabla(bd->ts, nombreTabla);
 		char *operador = new(char);
 		if(strstr(condicionEliminar, "<") != NULL)
-			operador = strstr(condicionEliminar, "<");
+			strcpy(operador, "<");
 		else if(strstr(condicionEliminar, ">") != NULL)
-			operador = strstr(condicionEliminar, ">");
+			strcpy(operador, ">");
 		else if(strstr(condicionEliminar, "=") != NULL)
-			operador = strstr(condicionEliminar, "=");
+			strcpy(operador, "=");
 		else
-			operador = strstr(condicionEliminar, "!");
+			strcpy(operador, "!");
 		char *col = strtok(condicionEliminar, "<>=!");
 		char *valor = strtok(NULL, "<>=!");
+		if(valor == NULL){
+			valor = new(char);
+			strcpy(valor, " ");
+		}
 		return deleteFromTS(aux, col, operador, valor);
 	}
 }
@@ -156,6 +171,7 @@ TipoRet printMetadata(bd bd, char *nombreTabla){
 		return ERROR;
 	}else{
 		tabla aux = buscarTabla(bd->ts, nombreTabla);
+		cout<<"\n";
 		printMetadataTS(aux);
 		return OK;
 	}

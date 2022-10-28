@@ -11,6 +11,10 @@
 
 typedef struct nodo_columnas * columnas;
 
+columnas dropTableCS(columnas cs);
+//Elimina todas la tuplas de una tabla
+//Pre: cs != NULL
+
 bool encontreCS(columnas cs, char *nombre);
 //Retorna true si encuentra una columna con el nombre dado
 

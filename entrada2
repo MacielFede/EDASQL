@@ -1,0 +1,4 @@
+createTable(Personas)
+addCol(Personas, CI, integer, PRIMARY_KEY)
+addCol(Personas, Apellido, string, NOT_EMPTY)
+salir()

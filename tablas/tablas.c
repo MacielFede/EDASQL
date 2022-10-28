@@ -19,12 +19,97 @@ struct nodo_tablas{
      tablas der;
 };
 
+tablas createTableTS(tablas ts,char *nombreTabla){
+     if(ts == NULL){
+          ts = new(nodo_tablas);
+          ts->t = createTableT(ts->t,nombreTabla);
+          ts->der = NULL;
+          ts->izq = NULL;
+     }else if(strcasecmp(nombreTabla, nombreT(ts->t)) > 0)
+          ts->der = createTableTS(ts->der, nombreTabla);
+     else
+          ts->izq = createTableTS(ts->izq, nombreTabla);
+     return ts;
+}
+
+int max(int a, int b){
+	if(a > b)
+		return a;
+	else
+		return b;
+}
+
+int profundidad(tablas ts){
+	if (ts == NULL)
+		return 0;
+	else
+		return 1 + max(profundidad(ts->izq), profundidad(ts->der));
+}
+
+tablas max_iz(tablas & ts){
+	if (ts->der == NULL){
+		tablas aux = ts;
+		ts = ts->izq;
+		return aux;
+	}else
+		return max_iz(ts->der);
+}
+
+tablas min_de(tablas & ts){
+	if (ts->izq == NULL){
+		tablas aux = ts;
+		ts = ts->der;
+		return aux;
+	}else
+		return min_de(ts->izq);
+}
+
+tablas dropTableTS(tablas ts,char *nombreTabla){
+     if(strcasecmp(nombreTabla, nombreT(ts->t)) == 0){
+          tablas aux;
+          if(ts->izq == NULL && ts->der == NULL){
+               ts->t = dropTableT(ts->t);
+               delete ts;
+               return NULL;
+          }else if(ts->izq == NULL){
+               aux = ts->der;
+               ts-> t = dropTableT(ts->t);
+               delete ts;
+               return aux;
+          }else if(ts->der == NULL){
+               aux = ts->izq;
+               ts-> t = dropTableT(ts->t);
+               delete ts;
+               return aux;
+          }else{
+               if (profundidad(ts->izq) > profundidad(ts->der))
+				aux = max_iz(ts->izq);
+			else
+				aux = min_de(ts->der);
+			aux->izq = ts->izq;
+			aux->der = ts->der;
+               ts-> t =dropTableT(ts->t);
+			delete ts;
+			return aux;
+          }
+     }
+     else if(strcasecmp(nombreTabla, nombreT(ts->t)) > 0){
+          ts->der = dropTableTS(ts->der, nombreTabla);
+          return ts;
+     }
+     else{
+          ts->izq = dropTableTS(ts->izq, nombreTabla);
+          return ts;
+     }
+          
+}
+
 bool encontreTS(tablas ts, char *nombre){
      if(ts == NULL)
           return false;
-     else if(strcmp(nombre, nombreT(ts->t)) == 0)
+     else if(strcasecmp(nombre, nombreT(ts->t)) == 0)
           return true;
-     else if(strcmp(nombre, nombreT(ts->t)) > 0)
+     else if(strcasecmp(nombre, nombreT(ts->t)) > 0)
           return encontreTS(ts->der, nombre);
      else
           return encontreTS(ts->izq, nombre);
@@ -63,15 +148,16 @@ TipoRet deleteFromTS(tabla & t, char *col, char *operador, char *valor){
 }
 
 TipoRet addColTS (tablas & ts, char *nombreTabla, char *NombreCol, char *tipoCol, char *calificadorCol){
-	tablas aux = ts;
-	while((aux->der != NULL) && (strcmp(nombreTabla,nombreT(aux->t))!=0)){
-		aux=aux -> der;
-	}
-		if (aux->der == NULL){
-			cout << "No se encontro la tabla especificada" <<endl;
-			return ERROR; 
-		}else	
-			return addColT (aux->t, NombreCol, tipoCol, calificadorCol);
+	if(ts!=NULL && strcmp(nombreTabla,nombreT(ts->t))==0){
+          return addColT (ts->t, NombreCol, tipoCol, calificadorCol);
+     }else if(ts!=NULL && strcmp(nombreTabla,nombreT(ts->t))>0){
+          addColTS(ts->der, nombreTabla, NombreCol, tipoCol, calificadorCol);
+     }else if(ts!=NULL && strcmp(nombreTabla,nombreT(ts->t))<0){
+          addColTS(ts->izq, nombreTabla, NombreCol, tipoCol, calificadorCol);
+     }else{
+          cout << "No se encontro la tabla especificada" <<endl;
+          return ERROR; 
+     }
 }
 
 TipoRet dropColTS (tablas &ts, char* nombreTabla, char* NombreCol){
@@ -79,7 +165,7 @@ TipoRet dropColTS (tablas &ts, char* nombreTabla, char* NombreCol){
 	while((aux->der != NULL) && (strcmp(nombreTabla,nombreT(aux->t))!=0)){
 		aux=aux -> der;
 	}
-		if (aux->der == NULL){
+		if (strcmp(nombreTabla,nombreT(aux->t))!=0){
 			cout << "No se encontro la tabla especificada" <<endl;
 			return ERROR; 
 		}else	

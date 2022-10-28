@@ -18,20 +18,25 @@ struct nodo_tabla{
      char * nombre;
 };
 
-tabla crearTabla(){
-     return NULL;
+tabla createTableT(tabla t,char *nombreTabla){
+     t = new(nodo_tabla);
+     t->nombre = new(char[MAX_NOMBRE]);
+     strcpy(t->nombre, nombreTabla);
+     t->cs = NULL;
+     return t;
+}
+
+tabla dropTableT(tabla t){
+     delete t->nombre;
+     if(t->cs != NULL){
+          t->cs = dropTableCS(t->cs);
+     }
+     delete t;
+     return t;
 }
 
 char * nombreT(tabla t){
      return t->nombre;
-}
-
-tabla insertarTabla(tabla t, char *nombreT){
-     t = new(nodo_tabla);
-     t->nombre = new char[MAX_NOMBRE];
-     strcpy(t->nombre, nombreT);
-     t->cs = NULL;
-     return t;
 }
 
 TipoRet insertIntoT(tabla & t, char *columnasTupla[], char *valoresTupla[]){

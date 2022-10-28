@@ -64,19 +64,25 @@ int cuentaTuplas(columna col){
 
 columna nuevaCol(int tups,char *NombreCol, char *tipoCol, char *calificadorCol){
 	columna col = new (nodo_columna);
+     col->calificador = new(char[MAX_NOMBRE]);
+     col->tipoDato = new(char[MAX_NOMBRE]);
+     col->nombre = new(char[MAX_NOMBRE]);
 	strcpy(col -> tipoDato, tipoCol);
 	strcpy(col -> calificador, calificadorCol);
 	strcpy(col -> nombre, NombreCol);
 	if (tups>0)
 		col -> ds = llenaEmpty(tups);
-	else
-		col -> ds = NULL;
+     else
+          col -> ds = NULL;
 	return col;
 }
 
 columna dropColC (columna c){
 	if (cuentaTuplasDs(c->ds)>0)
 		c -> ds = suprDatos (c->ds);
+     delete c->calificador;
+     delete c->tipoDato;
+     delete c->nombre;
 	delete c;
 	return NULL;
 }
@@ -92,13 +98,14 @@ columna deleteFromC(columna c, int index){
 
 columna deleteAllC(columna c){
 	c->ds = deleteAllDS(c->ds);
-	delete c;
 	return c;
 }
 
 void printdatatableC(columna c,unsigned int iter,bool &termine){
-     if(c->ds == NULL)
+     if(c->ds == NULL){
           cout << "La tabla no tiene tuplas"<<endl;
+          termine = true;
+     }
      else
           printdatatableDS(c->ds, iter, termine);
 }

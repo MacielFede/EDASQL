@@ -13,7 +13,7 @@ using namespace std;
 
 struct nodo_dato{
      char * info;
-     int indice; //Esto es para saber en que posición de la lista esta la primary key del dato (osea la posición de la tupla)
+     unsigned int indice; //Esto es para saber en que posición de la lista esta la primary key del dato (osea la posición de la tupla)
 };
 
 char * infoDato(dato d){
@@ -40,6 +40,7 @@ dato insertIntoD(const char *data, unsigned int index){
 
 dato datoEmpty (int i){
 	dato d = new (nodo_dato);
+     d->info = new(char[MAX_VALOR]);
 	strcpy(d -> info, "EMPTY");
 	d -> indice = i;
 	return d;
@@ -53,6 +54,7 @@ void resetearIndice(dato & d, bool sumo){
 }
 
 dato deleteFromD(dato d){
+     delete d->info;
 	delete d;
-	return d;
+	return NULL;
 }

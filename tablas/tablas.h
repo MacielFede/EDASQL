@@ -12,6 +12,13 @@
 
 typedef struct nodo_tablas * tablas;
 
+tablas createTableTS(tablas ts, char *nombreTabla);
+//Crea la tabla con el nombre indicado.
+
+tablas dropTableTS(tablas ts,char *nombreTabla);
+//Elimina de la base de datos la tabla con todos sus datos
+//Pre:La tabla debe existir en la base de datos
+
 bool encontreTS(tablas ts, char *nombre);
 //Retorna true si se encuentra una tabla con el nombre pasado
 

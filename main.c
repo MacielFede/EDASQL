@@ -5,7 +5,6 @@
 // main.h
 // Consola para ingreso de datos.
 
-#include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
@@ -22,31 +21,30 @@ int main()
 	char * pch, * pch1, * pch2, *pch3, *pch4;
 	TipoRet ret;
 	bool ejecutado = false;
-
 	bool salir = false;
 	
 	do{
-		cout << "\tcreateTable(nombreTabla)\n";
-		cout << "\tdropTable(nombreTabla)\n";
-		cout << "\taddCol(nombreTabla, NombreCol, tipoCol, calificadorCol)\n";
-		cout << "\tdropCol(nombreTabla, NombreCol)\n";
-		cout << "\talterCol(nombreTabla, nombreCol, tipoColNuevo, calificadorColNuevo, nombreColNuevo)\n";
-		cout << "\tinsertInto(nombreTabla, columnasTupla, valoresTupla)\n";
-		cout << "\tdeleteFrom(nombreTabla, condicionEliminar)\n";
-		cout << "\tupdate(nombreTabla, condicionModificar, columnaModificar, valorModificar)\n";
-		cout << "\tselectWhere(nomTabla1, condicion, nomTabla2)\n";
-		cout << "\tselect(nomTabla1, nomColumnas, nomTabla2)\n";
-		cout << "\tjoin(nomTabla1, nomTabla2, nomTabla3)\n";
-		cout << "\tunion(nombreTabla1, nombreTabla2, nombreTabla3)\n";
-		cout << "\tintersec(nombreTabla1, nombreTabla2, nombreTabla3)\n";
-		cout << "\tminus(nombreTabla1, nombreTabla2, nombreTabla3)\n";
-		cout << "\tprintdatatable(NombreTabla)\n";
-		cout << "\tprintTables()\n";
-		cout << "\tprintMetadata(nombreTabla)\n";
-		cout << "\tundo()\n";
-		cout << "\tredo()\n";
-		cout << "\tsalir()\n\n";
-		cout << "> ";
+		// cout << "\tcreateTable(nombreTabla)\n";
+		// cout << "\tdropTable(nombreTabla)\n";
+		// cout << "\taddCol(nombreTabla, NombreCol, tipoCol, calificadorCol)\n";
+		// cout << "\tdropCol(nombreTabla, NombreCol)\n";
+		// cout << "\talterCol(nombreTabla, nombreCol, tipoColNuevo, calificadorColNuevo, nombreColNuevo)\n";
+		// cout << "\tinsertInto(nombreTabla, columnasTupla, valoresTupla)\n";
+		// cout << "\tdeleteFrom(nombreTabla, condicionEliminar)\n";
+		// cout << "\tupdate(nombreTabla, condicionModificar, columnaModificar, valorModificar)\n";
+		// cout << "\tselectWhere(nomTabla1, condicion, nomTabla2)\n";
+		// cout << "\tselect(nomTabla1, nomColumnas, nomTabla2)\n";
+		// cout << "\tjoin(nomTabla1, nomTabla2, nomTabla3)\n";
+		// cout << "\tunion(nombreTabla1, nombreTabla2, nombreTabla3)\n";
+		// cout << "\tintersec(nombreTabla1, nombreTabla2, nombreTabla3)\n";
+		// cout << "\tminus(nombreTabla1, nombreTabla2, nombreTabla3)\n";
+		// cout << "\tprintdatatable(NombreTabla)\n";
+		// cout << "\tprintTables()\n";
+		// cout << "\tprintMetadata(nombreTabla)\n";
+		// cout << "\tundo()\n";
+		// cout << "\tredo()\n";
+		// cout << "\tsalir()\n\n";
+		// cout << "> ";
 		fflush( stdin );
 		ejecutado = false;
 		

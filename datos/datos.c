@@ -30,17 +30,17 @@ bool seRepiteDato(datos ds, char *dato){
 int insertionIndDS(datos ds,char *valor, char *tipoD){
      unsigned int iter = 0;
      if(strcasecmp(tipoD, "STRING") == 0){
-          while(!datoVacio(ds->d) && strcmp(valor, infoDato(ds->d))  > 0){
+          while(ds!=NULL && strcmp(valor, infoDato(ds->d))  > 0){
                iter++;
                ds = ds->sig;
           }
      }else{
-          while(!datoVacio(ds->d) && atoi(valor) > atoi(infoDato(ds->d))){
+          while(ds!=NULL && atoi(valor) > atoi(infoDato(ds->d))){
                iter++;
                ds = ds->sig;
           }
      }
-          return iter;
+     return iter;
 }
 
 datos insertIntoDS(datos ds,const char *valorTupla, unsigned int insertionIndex){
@@ -72,12 +72,9 @@ datos insertIntoDS(datos ds,const char *valorTupla, unsigned int insertionIndex)
                aux->ant = ant;
                aux->sig = ds;
           }
-          if(ds != NULL){
-               do{
-                    resetearIndice(ds->d, true);
-                    if(ds->sig != NULL)
-                         ds = ds->sig;
-               }while(ds->sig != NULL);
+          while(ds != NULL){
+               resetearIndice(ds->d, true);
+               ds = ds->sig;
           }
           while(ant->ant != NULL)
                ant = ant->ant;
@@ -86,23 +83,26 @@ datos insertIntoDS(datos ds,const char *valorTupla, unsigned int insertionIndex)
 }
 
 int cuentaTuplasDs(datos ds){
-	int max = indiceDato (ds-> d);
-	int actual;
-	datos iter=ds;
-	while (iter->sig != NULL){
-		actual=indiceDato (iter->d);
-		if (max < actual)
-			max = actual;
-		iter=iter->sig;
-	}
-	return max;
+	if (ds!=NULL && ds->d!=NULL){
+          int max = indiceDato (ds-> d);
+          int actual;
+          datos iter=ds;
+          while (iter != NULL){
+               actual=indiceDato (iter->d);
+               if (max < actual)
+                    max = actual;
+               iter=iter->sig;
+          }
+          return max;
+     }
+     else
+          return 0;
 }
 
 datos llenaEmpty(int tups){
-	
 	datos iter = NULL;
 	datos ds = NULL;
-	for (int i=0; i<tups; i++){
+	for (int i=0; i<=tups; i++){
 		datos aux = new (nodo_datos); 
 		aux -> d = datoEmpty (i);
 		aux -> ant = iter; 
@@ -177,28 +177,36 @@ datos deleteFromDS(datos ds, int index){
      while(indiceDato(ds->d) < index)
           ds = ds->sig;
      datos aux;
+     bool quieroRes = true;
      if(index == 0){
-          aux = ds->sig;
-          aux->ant = NULL;
+          if(ds->sig == NULL){
+               ds->d = deleteFromD(ds->d);
+               delete ds;
+               return NULL;
+          }else{
+               aux = ds->sig;
+               aux->ant = NULL;
+          }
      }else if(ds->sig == NULL){
           aux = ds->ant;
           aux->sig = NULL;
+          quieroRes = false;
      }else{
           aux = ds->sig;
           aux->ant = ds->ant;
           ds->ant->sig = aux;
      }
-     if(ds->sig !=NULL){
-          do{
+     if(quieroRes){
+          while(aux->sig != NULL){
                resetearIndice(aux->d, false);
-               if(aux->sig != NULL)
-                    aux = aux->sig;
-          }while(aux->sig != NULL);
+               aux = aux->sig;
+          }
+          resetearIndice(aux->d, false);
      }
-     while(aux->ant != NULL)
-          aux = aux->ant;
      ds->d = deleteFromD(ds->d);
      delete ds;
+     while(aux->ant != NULL)
+          aux = aux->ant;
      return aux;
 }
 
@@ -212,15 +220,12 @@ datos deleteAllDS(datos ds){
 			delete aux;
 		}
 	}
-	return ds;
+	return NULL;
 }
 
 void printdatatableDS(datos ds, unsigned int iter,bool &termine){
-     unsigned int aux = 0;
-     while (ds != NULL && aux<iter){
+     while (ds != NULL && indiceDato(ds->d)<iter)
           ds = ds->sig;
-          aux++;
-     }
      if(ds == NULL)
           termine = true;
      else
