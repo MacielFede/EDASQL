@@ -47,4 +47,8 @@ void printTablesT(tabla t);
 void printMetadataT(tabla t);
 //Imprime la metadata de la tabla indicada
 
+TipoRet selectWereT(char *valor,char *operador,char *col,tabla t1,tabla &t2);
+//Copia las columnas y las tuplas de t1 a t2 si cumplen la condición dada
+//Pre: Se debe indicar una columna existente en t1 para chequear la condición
+
 #endif

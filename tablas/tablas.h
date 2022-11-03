@@ -53,4 +53,8 @@ TipoRet addColTS (tablas & ts, char *nombreTabla, char *NombreCol, char *tipoCol
 TipoRet dropColTS (tablas & ts, char* nombreTabla, char* NombreCol);
 // Elimina de la tabla nombreTabla, si ésta existe, la columna NombreCol
 
+TipoRet selectWereTS(char *valor,char *operador,char *col,tabla t1, tabla &t2);
+//Dada 2 tablas, copia las tuplas de t1 a t2 dada una condición
+//Pre: t1 y t2 != NULL
+
 #endif

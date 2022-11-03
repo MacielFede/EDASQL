@@ -14,7 +14,7 @@ char * infoDato(dato d);
 //Retorna la informacion guardada en d
 //Pre: el dato debe != NULL
 
-int indiceDato(dato d);
+unsigned int indiceDato(dato d);
 //Retorna el indice de un dato
 //Pre: el dato debe != NULL
 

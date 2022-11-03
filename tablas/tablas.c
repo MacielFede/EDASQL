@@ -65,7 +65,7 @@ tablas min_de(tablas & ts){
 }
 
 tablas dropTableTS(tablas ts,char *nombreTabla){
-     if(strcasecmp(nombreTabla, nombreT(ts->t)) == 0){
+     if(strcmp(nombreTabla, nombreT(ts->t)) == 0){
           tablas aux;
           if(ts->izq == NULL && ts->der == NULL){
                ts->t = dropTableT(ts->t);
@@ -151,27 +151,30 @@ TipoRet addColTS (tablas & ts, char *nombreTabla, char *NombreCol, char *tipoCol
 	if(ts!=NULL && strcmp(nombreTabla,nombreT(ts->t))==0){
           return addColT (ts->t, NombreCol, tipoCol, calificadorCol);
      }else if(ts!=NULL && strcmp(nombreTabla,nombreT(ts->t))>0){
-          addColTS(ts->der, nombreTabla, NombreCol, tipoCol, calificadorCol);
+          return addColTS(ts->der, nombreTabla, NombreCol, tipoCol, calificadorCol);
      }else if(ts!=NULL && strcmp(nombreTabla,nombreT(ts->t))<0){
-          addColTS(ts->izq, nombreTabla, NombreCol, tipoCol, calificadorCol);
-     }else{
+          return addColTS(ts->izq, nombreTabla, NombreCol, tipoCol, calificadorCol);
+     }else{ //No encontre la tabla
           cout << "No se encontro la tabla especificada" <<endl;
           return ERROR; 
      }
 }
 
 TipoRet dropColTS (tablas &ts, char* nombreTabla, char* NombreCol){
-	tablas aux = ts;
-	while((aux->der != NULL) && (strcmp(nombreTabla,nombreT(aux->t))!=0)){
-		aux=aux -> der;
-	}
+	if(ts!=NULL){
+		tablas aux = ts;
+		while((aux->der != NULL) && (strcmp(nombreTabla,nombreT(aux->t))!=0))
+			aux=aux -> der;
 		if (strcmp(nombreTabla,nombreT(aux->t))!=0){
 			cout << "No se encontro la tabla especificada" <<endl;
 			return ERROR; 
 		}else	
 			return dropColT (aux->t, NombreCol);
+	}else{
+		cout << "No hay tablas creadas" <<endl;
+		return ERROR;
+	}
 }
-
 
 void printdatatableTS(tablas ts, char *nombreTabla){
      tabla aux = buscarTabla(ts, nombreTabla);
@@ -190,3 +193,6 @@ void printMetadataTS(tabla t){
 	printMetadataT(t);
 }
 
+TipoRet selectWereTS(char *valor,char *operador,char *col,tabla t1, tabla &t2){
+     return selectWereT(valor,operador,col,t1,t2);
+}

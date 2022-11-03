@@ -91,7 +91,7 @@ TipoRet deleteFrom (bd & bd, char *nombreTabla, char *condicionEliminar){
 		return ERROR;
 	}else{
 		tabla aux = buscarTabla(bd->ts, nombreTabla);
-		char *operador = new(char);
+		char *operador = new(char[2]);
 		if(strstr(condicionEliminar, "<") != NULL)
 			strcpy(operador, "<");
 		else if(strstr(condicionEliminar, ">") != NULL)
@@ -103,7 +103,7 @@ TipoRet deleteFrom (bd & bd, char *nombreTabla, char *condicionEliminar){
 		char *col = strtok(condicionEliminar, "<>=!");
 		char *valor = strtok(NULL, "<>=!");
 		if(valor == NULL){
-			valor = new(char);
+			valor = new(char[2]);
 			strcpy(valor, " ");
 		}
 		return deleteFromTS(aux, col, operador, valor);
@@ -116,8 +116,30 @@ TipoRet update(bd & bd, char * nombreTabla, char * condicionModificar, char * co
 }
 
 TipoRet selectWhere (bd & bd,char * nomTabla1, char * condicion, char * nomTabla2){
-	//cout << " - selectWhere " << nomTabla1 << " " << condicion << " " << nomTabla2 << endl;
-	return NO_IMPLEMENTADA;
+	if(encontreTS(bd->ts, nomTabla1) && !encontreTS(bd->ts,nomTabla2)){
+		char *operador = new(char[2]);
+		if(strstr(condicion, "<") != NULL)
+			strcpy(operador, "<");
+		else if(strstr(condicion, ">") != NULL)
+			strcpy(operador, ">");
+		else if(strstr(condicion, "=") != NULL)
+			strcpy(operador, "=");
+		else
+			strcpy(operador, "!");
+		char *col = strtok(condicion, "<>=!");
+		char *valor = strtok(NULL, "<>=!");
+		if(valor == NULL){
+			valor = new(char[2]);
+			strcpy(valor, " ");
+		}
+		bd->ts = createTableTS(bd->ts, nomTabla2);
+		tabla t1 = buscarTabla(bd->ts, nomTabla1);
+		tabla t2 = buscarTabla(bd->ts, nomTabla2);
+		return selectWereTS(valor, operador, col, t1, t2);
+	}else{
+		cout<<"La tabla 2 ya existe o la tabla 1 no existe"<<endl;
+		return ERROR;
+	}
 }
 
 TipoRet select (bd & bd, char * nomTabla1, char * nomColumnas, char * nomTabla2){

@@ -28,9 +28,8 @@ tabla createTableT(tabla t,char *nombreTabla){
 
 tabla dropTableT(tabla t){
      delete t->nombre;
-     if(t->cs != NULL){
+     if(t->cs != NULL)
           t->cs = dropTableCS(t->cs);
-     }
      delete t;
      return t;
 }
@@ -108,3 +107,15 @@ void printMetadataT(tabla t){
 	printMetadataCS(t->cs);
 }
 
+TipoRet selectWereT(char *valor,char *operador,char *col,tabla t1,tabla &t2){
+     if(!encontreCS(t1->cs, col)){
+          cout<<"La columna indicada no existe en la tabla indicada"<<endl;
+          return ERROR;
+     }else{
+          //La columna indicada si existe en la tabla
+          t2->cs = copiarColumnas(t1->cs);
+          columna aux = buscarColumna(t1->cs, col);
+          t2->cs = copiarDatos(t1->cs, aux);
+          return OK;
+     }
+}

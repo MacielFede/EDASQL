@@ -4,5 +4,8 @@
           "ostream": "c",
           "iostream": "c",
           "random": "c"
-     }
+     },
+     "cSpell.words": [
+          "tuplas"
+     ]
 }

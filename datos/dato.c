@@ -20,7 +20,7 @@ char * infoDato(dato d){
      return d->info;
 }
 
-int indiceDato(dato d){
+unsigned int indiceDato(dato d){
      return d->indice;
 }
 
