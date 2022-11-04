@@ -115,7 +115,7 @@ TipoRet selectWereT(char *valor,char *operador,char *col,tabla t1,tabla &t2){
           //La columna indicada si existe en la tabla
           t2->cs = copiarColumnas(t1->cs);
           columna aux = buscarColumna(t1->cs, col);
-          t2->cs = copiarDatos(t1->cs, aux);
+          t2->cs = copiarDatos(t1->cs, aux, t2->cs, valor, operador);
           return OK;
      }
 }

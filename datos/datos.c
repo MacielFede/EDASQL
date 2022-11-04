@@ -18,6 +18,12 @@ struct nodo_datos{
      datos ant;
 };
 
+datos revovinarDS(datos ds){
+     while(ds->ant != NULL)
+          ds = ds->ant;
+     return ds;
+}
+
 bool seRepiteDato(datos ds, char *dato){
      if(ds == NULL)
           return false;
@@ -76,8 +82,7 @@ datos insertIntoDS(datos ds,const char *valorTupla, unsigned int insertionIndex)
                resetearIndice(ds->d, true);
                ds = ds->sig;
           }
-          while(ant->ant != NULL)
-               ant = ant->ant;
+          ant = revovinarDS(ant);
           return ant;
      }
 }
@@ -128,43 +133,59 @@ datos suprDatos (datos ds){
 	return ds;
 }
 
-int deleteIndexDS(datos ds, char *operador,char *valor, char *tipoDato){
+int deleteIndexDS(datos ds, char *operador,char *valor, char *tipoDato,int indiceAnterior){
      if(ds == NULL || datoVacio(ds->d)){
           return -1;
      }else{
-          while(ds != NULL){
-               if(strcmp(operador, "<") == 0){
-                    if(strcasecmp(tipoDato, "STRING") == 0){
-                         if(strcmp(valor, infoDato(ds->d) ) > 0)
-                              return indiceDato(ds->d);
-                    }else{
-                         if(atoi(valor) > atoi(infoDato(ds->d)))
-                              return indiceDato(ds->d);
-                    }
-               }else if(strcmp(operador, ">") == 0){
-                    if(strcasecmp(tipoDato, "STRING") == 0){
-                         if(strcmp(valor, infoDato(ds->d)) < 0)
-                              return indiceDato(ds->d);
-                    }else{
-                         if(atoi(valor) < atoi(infoDato(ds->d)))
-                              return indiceDato(ds->d);
-                    }
-               }else if(strcmp(operador, "=") == 0){
-                    if(strcasecmp(tipoDato, "STRING") == 0){
-                         if(strcmp(valor, infoDato(ds->d))==0)
-                              return indiceDato(ds->d);
-                    }else{
-                         if(atoi(valor) == atoi(infoDato(ds->d)))
-                              return indiceDato(ds->d);
+          cout<<"soy <?"<<(strcmp(operador, "<") == 0) << "\nsoy >?"<<(strcmp(operador, ">") == 0)<<endl;
+          while(ds!=NULL && indiceAnterior>indiceDato(ds->d))
+               ds = ds->sig;
+          while(ds != NULL && !datoVacio(ds->d)){
+               if(strcasecmp(valor, "EMPTY")){
+                    if((strcmp(operador, "=") == 0 && strcmp(valor, infoDato(ds->d) ) == 0) || (strcmp(operador, "!") == 0 && strcmp(valor, infoDato(ds->d) ) != 0)){
+                         //Si el el valor es igual a empty y el operador es =, O si el valor es distinto de empty y el operador es ! se cumple la condición
+                         return indiceDato(ds->d);
                     }
                }else{
-                    //Operador es !
-                    if(strcasecmp(tipoDato, "STRING") == 0){
-                         if(strcmp(valor, infoDato(ds->d))  != 0)
-                              return indiceDato(ds->d);
+                    if(strcmp(operador, "<") == 0){
+                         if(strcasecmp(tipoDato, "STRING") == 0){
+                              if(strcmp(valor, infoDato(ds->d) ) > 0)
+                                   return indiceDato(ds->d);
+                         }else{
+                              cout<<(atoi(valor) > atoi(infoDato(ds->d)))<<endl;
+                              if(atoi(valor) > atoi(infoDato(ds->d))){
+                                   cout<<"retorno el indice"<<endl;
+                                   return indiceDato(ds->d);
+                              }
+                         }
+                    }else if(strcmp(operador, ">") == 0){
+                         if(strcasecmp(tipoDato, "STRING") == 0){
+                              if(strcmp(valor, infoDato(ds->d)) < 0)
+                                   return indiceDato(ds->d);
+                         }else{
+                              cout<<(atoi(valor) > atoi(infoDato(ds->d)))<<endl;
+                              if(atoi(valor) < atoi(infoDato(ds->d))){
+                                   cout<<"retorno el indice"<<endl;
+                                   return indiceDato(ds->d);
+                              }
+                         }
+                    }else if(strcmp(operador, "=") == 0){
+                         if(strcasecmp(tipoDato, "STRING") == 0){
+                              if(strcmp(valor, infoDato(ds->d))==0)
+                                   return indiceDato(ds->d);
+                         }else{
+                              if(atoi(valor) == atoi(infoDato(ds->d)))
+                                   return indiceDato(ds->d);
+                         }
                     }else{
-                         if(atoi(valor) != atoi(infoDato(ds->d)))
-                              return indiceDato(ds->d);
+                         //Operador es !
+                         if(strcasecmp(tipoDato, "STRING") == 0){
+                              if(strcmp(valor, infoDato(ds->d))  != 0)
+                                   return indiceDato(ds->d);
+                         }else{
+                              if(atoi(valor) != atoi(infoDato(ds->d)))
+                                   return indiceDato(ds->d);
+                         }
                     }
                }
                ds = ds->sig;
@@ -205,8 +226,7 @@ datos deleteFromDS(datos ds, int index){
      }
      ds->d = deleteFromD(ds->d);
      delete ds;
-     while(aux->ant != NULL)
-          aux = aux->ant;
+     aux = revovinarDS(aux);
      return aux;
 }
 
@@ -230,4 +250,69 @@ void printdatatableDS(datos ds, unsigned int iter,bool &termine){
           termine = true;
      else
           cout<< infoDato(ds->d);
+}
+
+datos copiarTodasTuplasDS(datos base, datos copia){
+     while(base != NULL){
+          if(base->ant == NULL && base->sig != NULL){
+               //Estoy en el primer dato y hay mas de 1 dato
+               copia = new(nodo_datos);
+               copia->ant = NULL;
+               copia->sig = new(nodo_datos);
+               copia->sig->ant = copia;
+          }else if(base->ant == NULL && base->sig == NULL){
+               //Estoy en el primer dato y hay 1 dato
+               copia = new(nodo_datos);
+               copia->ant = NULL;
+               copia->sig = NULL;
+               copia->d = insertIntoD(infoDato(base->d), indiceDato(base->d));
+               return copia;
+          }else if(base->sig == NULL){
+               //Estoy en el ultimo dato y hay mas de 1 dato
+               copia->sig = NULL;
+               copia->d = insertIntoD(infoDato(base->d), indiceDato(base->d));
+               copia = revovinarDS(copia);
+               return copia;
+          }else{
+               //Estoy en el medio
+               copia->sig = new(nodo_datos);
+               copia->sig->ant = copia;
+          }
+          copia->d = insertIntoD(infoDato(base->d), indiceDato(base->d));
+          copia = copia->sig;
+          base = base->sig;
+     }
+}
+
+datos copiarValorTuplaDS(datos base,datos copia,unsigned int index){
+     cout<<"intento copiar alguna tupla"<<endl;
+     while(indiceDato(base->d) < index)
+          base = base->sig;
+     if(copia == NULL){
+          copia = new(nodo_datos);
+          copia->ant = NULL;
+          copia->sig = NULL;
+     }else{
+          while(copia->sig != NULL) //Voy hasta el ultimo lugar para insertar en orden de llegada
+               copia = copia->sig;
+          copia->sig = new(nodo_datos);
+          copia->sig->ant = copia; //Anclo el dato siguiente con el actual
+          copia = copia->sig;
+          copia->sig = NULL;
+     }
+     copia->d = insertIntoD(infoDato(base->d), index);
+     copia = revovinarDS(copia);
+     unsigned int i = 0;
+     do{
+          while(i!= indiceDato(copia->d))
+               resetearIndice(copia->d, false);
+          if(copia->sig!=NULL)
+               copia = copia->sig;
+          i++;
+          if(copia->sig == NULL && copia->ant != NULL)
+               while(i!= indiceDato(copia->d))
+                    resetearIndice(copia->d, false);
+     }while(copia->sig!=NULL);
+     copia = revovinarDS(copia);
+     return copia;
 }

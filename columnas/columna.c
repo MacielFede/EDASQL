@@ -87,8 +87,8 @@ columna dropColC (columna c){
 	return NULL;
 }
 
-int deleteIndex(columna c, char *operador, char *valor){
-     return deleteIndexDS(c->ds, operador, valor, c->tipoDato);
+int deleteIndex(columna c, char *operador, char *valor, int indiceAnterior){
+     return deleteIndexDS(c->ds, operador, valor, c->tipoDato, indiceAnterior);
 }
 
 columna deleteFromC(columna c, int index){
@@ -110,3 +110,12 @@ void printdatatableC(columna c,unsigned int iter,bool &termine){
           printdatatableDS(c->ds, iter, termine);
 }
 
+columna copiarTodasTuplasC(columna base, columna copia){
+     copia->ds = copiarTodasTuplasDS(base->ds, copia->ds);
+     return copia;
+}
+
+columna copiarValorTupla(columna base ,columna copia,unsigned int index){
+     copia->ds = copiarValorTuplaDS(base->ds, copia->ds, index);
+     return copia;
+}

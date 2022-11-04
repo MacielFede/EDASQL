@@ -69,4 +69,16 @@ void printNombresC(columnas cs, columna pk);
 void printMetadataCS(columnas cs);
 //Imprime la metadata de cada columna
 
+columnas copiarColumnas(columnas cs);
+//Copia la metadata de la lista de columnas dada a otra lista creada desde 0
+//Retorna la copia
+
+columnas copiarDatos(columnas cs1,columna base,columnas cs2, char *valor,char *operador);
+//Buscar las tuplas que cumplen la condicion dada en la columna base y copia los datos de cs1 a cs2
+//Pre: base debe pertenecer a cs1
+
+columnas copiarTodasTuplas(columnas cs1,columnas cs2);
+//Copia todas las tuplas de la lista de columnas cs1 a cs2
+//Pre: cs2 ya debe tener todas las columnas(y su metadata) de la cs1
+
 #endif

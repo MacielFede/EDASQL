@@ -55,7 +55,7 @@ columna nuevaCol(int tups, char *NombreCol, char *tipoCol, char *calificadorCol)
 columna dropColC (columna c);
 // Elimina la Columna c y libera la memoria asociada.
 
-int deleteIndex(columna c, char *operador, char *valor);
+int deleteIndex(columna c, char *operador, char *valor, int indiceAnterior);
 //Dada una columna retorna el indice del primer valor que cumple con la condicion dada
 //Retorna -1 en caso de que no haya valores que cumplan la condicion
 //Pre: la columna debe != NULL
@@ -70,5 +70,12 @@ columna deleteAllC(columna c);
 
 void printdatatableC(columna c,unsigned int iter,bool &termine);
 //Imprime el dato de la columna en esa posicion, si no hay datos imprime un mensaje
+
+columna copiarTodasTuplasC(columna base, columna copia);
+//Copia todos los datos de la columna base a copia
+//Pre: base != NULL
+
+columna copiarValorTupla(columna base ,columna copia,unsigned int index);
+//Copia el valor en la posicion index de la columna base, a la columna copia
 
 #endif

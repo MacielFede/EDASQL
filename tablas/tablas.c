@@ -118,9 +118,9 @@ bool encontreTS(tablas ts, char *nombre){
 tabla buscarTabla(tablas ts, char *nombre){
      if(ts == NULL)
           return NULL;
-     else if(strcmp(nombre, nombreT(ts->t)) == 0)
+     else if(strcasecmp(nombre, nombreT(ts->t)) == 0)
           return ts->t;
-     else if(strcmp(nombre, nombreT(ts->t)) > 0)
+     else if(strcasecmp(nombre, nombreT(ts->t)) > 0)
           return buscarTabla(ts->der, nombre);
      else
           return buscarTabla(ts->izq, nombre);

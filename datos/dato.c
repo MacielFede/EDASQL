@@ -36,8 +36,6 @@ dato insertIntoD(const char *data, unsigned int index){
      return d;
 }
 
-
-
 dato datoEmpty (int i){
 	dato d = new (nodo_dato);
      d->info = new(char[MAX_VALOR]);
