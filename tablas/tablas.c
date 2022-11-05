@@ -127,7 +127,7 @@ tabla buscarTabla(tablas ts, char *nombre){
 }
 
 TipoRet insertIntoTS(tabla & t, char *columnasTupla, char *valoresTupla){
-     unsigned int iter = 0;
+     int iter = 0;
      char *col[MAX_CANT_COL], *valores[MAX_CANT_COL];
      col[iter] = strtok(columnasTupla, ":");
      while(iter<MAX_CANT_COL && col[iter]!=NULL){
@@ -161,19 +161,16 @@ TipoRet addColTS (tablas & ts, char *nombreTabla, char *NombreCol, char *tipoCol
 }
 
 TipoRet dropColTS (tablas &ts, char* nombreTabla, char* NombreCol){
-	if(ts!=NULL){
-		tablas aux = ts;
-		while((aux->der != NULL) && (strcmp(nombreTabla,nombreT(aux->t))!=0))
-			aux=aux -> der;
-		if (strcmp(nombreTabla,nombreT(aux->t))!=0){
-			cout << "No se encontro la tabla especificada" <<endl;
-			return ERROR; 
-		}else	
-			return dropColT (aux->t, NombreCol);
-	}else{
-		cout << "No hay tablas creadas" <<endl;
-		return ERROR;
-	}
+     if(ts!=NULL && strcmp(nombreTabla,nombreT(ts->t))==0){
+          return dropColT (ts->t, NombreCol);
+     }else if(ts!=NULL && strcmp(nombreTabla,nombreT(ts->t))>0){
+          return dropColTS(ts->der, nombreTabla, NombreCol);
+     }else if(ts!=NULL && strcmp(nombreTabla,nombreT(ts->t))<0){
+          return dropColTS(ts->izq, nombreTabla, NombreCol);
+     }else{ //No encontre la tabla
+          cout << "No se encontro la tabla especificada" <<endl;
+          return ERROR; 
+     }
 }
 
 void printdatatableTS(tablas ts, char *nombreTabla){

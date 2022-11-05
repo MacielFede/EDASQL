@@ -42,7 +42,7 @@ int insertionIndC(columna pk, char *valor);
 //Chequea que la columna tenga un dato para retornar el indice de insercion de un nuevo dato
 //Pre: pk debe ser la primary key de la tabla
 
-void insertIntoC(columna & c, const char *valoresTupla, unsigned int insertionIndex);
+void insertIntoC(columna & c, const char *valoresTupla,  int insertionIndex);
 //Chequea que las columnas existan y que una de ellas sea pk, para luego insertar los datos.
 //Pre: la tabla t debe existir y debe tener al menos 1 columna
 
@@ -68,14 +68,14 @@ columna deleteFromC(columna c, int index);
 columna deleteAllC(columna c);
 //Elimina la columna y todos sus datos
 
-void printdatatableC(columna c,unsigned int iter,bool &termine);
+void printdatatableC(columna c, int iter,bool &termine);
 //Imprime el dato de la columna en esa posicion, si no hay datos imprime un mensaje
 
 columna copiarTodasTuplasC(columna base, columna copia);
 //Copia todos los datos de la columna base a copia
 //Pre: base != NULL
 
-columna copiarValorTupla(columna base ,columna copia,unsigned int index);
+columna copiarValorTupla(columna base ,columna copia, int index);
 //Copia el valor en la posicion index de la columna base, a la columna copia
 
 #endif

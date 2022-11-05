@@ -39,10 +39,10 @@ char * nombreT(tabla t){
 }
 
 TipoRet insertIntoT(tabla & t, char *columnasTupla[], char *valoresTupla[]){
-     unsigned int iter = 0;
+     int iter = 0;
      bool mePasanPk = false;
      if(tienePK(t->cs)){
-          unsigned int pkIndex;
+          int pkIndex;
           while(columnasTupla[iter] != NULL && !mePasanPk){
                if(esPrimaryKey(buscarColumna(t->cs, columnasTupla[iter]))){
                     mePasanPk = true;

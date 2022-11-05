@@ -13,14 +13,14 @@ using namespace std;
 
 struct nodo_dato{
      char * info;
-     unsigned int indice; //Esto es para saber en que posición de la lista esta la primary key del dato (osea la posición de la tupla)
+     int indice; //Esto es para saber en que posición de la lista esta la primary key del dato (osea la posición de la tupla)
 };
 
 char * infoDato(dato d){
      return d->info;
 }
 
-unsigned int indiceDato(dato d){
+int indiceDato(dato d){
      return d->indice;
 }
 

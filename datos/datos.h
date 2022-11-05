@@ -21,7 +21,7 @@ int insertionIndDS(datos ds,char *valor, char *tipoD);
 //Retorna el indice donde se va a insertar la nueva tupla
 //Pre: ds debe ser un puntero a la primer posicion de la lista.
 
-datos insertIntoDS(datos ds,const char *valorTupla, unsigned int insertionIndex);
+datos insertIntoDS(datos ds,const char *valorTupla,  int insertionIndex);
 //Inserta el dato pasado en la lista de datos
 //Pre: ds debe ser un puntero al primer elemento de la lista de datos
 
@@ -47,7 +47,7 @@ datos deleteFromDS(datos ds, int index);
 datos deleteAllDS(datos ds);
 //Elimina todos los datos de la columna
 
-void printdatatableDS(datos ds, unsigned int iter,bool &termine);
+void printdatatableDS(datos ds,  int iter,bool &termine);
 //Imprime el dato de una columna en la posicion iter y pasa termine a false si termino de imprimir todos los datos
 //Pre: ds debe ser el puntero a la primer posicion de la lista
 //Pre: la columna debe tener tanta cantidad de datos como iter
@@ -56,7 +56,7 @@ datos copiarTodasTuplasDS(datos base, datos copia);
 //Copia los datos de la lista de datos base a la lista de datos copia
 //Pre: base != NULL
 
-datos copiarValorTuplaDS(datos base,datos copia,unsigned int index);
+datos copiarValorTuplaDS(datos base,datos copia, int index);
 //Copia el valor que se encuentra en la posicion index de la lista de datos base, al ultimo lugar de la lista de datos copia
 
 #endif

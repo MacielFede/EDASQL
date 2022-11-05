@@ -150,8 +150,8 @@ int cantidadTuplas (columnas cs){
 	}
 }
 
-TipoRet insertIntoCS(columnas & cs, char *columnasTupla[], char *valoresTupla[], unsigned int insertionIndex){
-     unsigned int iter;
+TipoRet insertIntoCS(columnas & cs, char *columnasTupla[], char *valoresTupla[],  int insertionIndex){
+     int iter;
      bool termine = false;
      while(!termine){
           iter = 0;
@@ -198,20 +198,15 @@ TipoRet deleteFromCS(columnas & cs, columna c, char *operador, char *valor){
           //No hago nada
      }else{
           //Debo verificar en la columna si cada valor cumple o no la condicion
-          cout<<"intento eliminar  "<< operador <<endl;
           int index = deleteIndex(c, operador, valor, -1);
-          if(index == 0 && ((strcmp(operador, "<") == 0 || strcmp(operador, ">") == 0) && strcasecmp(calificadorC(c), "PRIMARY_KEY") == 0)){ 
-               //Si el operador es > o < y quiero empezar a eliminar desde el primer elemento de la primary key, quiero eliminarlos a todos
-               cs = deleteAll(cs);
-          }else{
-               while(index != -1){
-                    columnas aux = cs;
-                    while(aux != NULL){
-                         aux->c = deleteFromC(aux->c, index);
-                         aux = aux->sig;
-                    }
-                    index = deleteIndex(c, operador, valor, index);
+          while(index != -1){
+               cout<<"intento eliminar  "<< operador <<endl;
+               columnas aux = cs;
+               while(aux != NULL){
+                    aux->c = deleteFromC(aux->c, index);
+                    aux = aux->sig;
                }
+               index = deleteIndex(c, operador, valor, index);
           }
      }
      return OK;
@@ -232,7 +227,7 @@ void printdatatableCS(columnas cs){
      else{
           printNombresC(cs,cs->c);
           bool termine = false;
-          unsigned int iter = 0;
+          int iter = 0;
           while(!termine){
                printdatatableC(cs->c, iter, termine);
                if(!termine){
@@ -286,22 +281,16 @@ columnas copiarDatos(columnas cs1,columna base,columnas cs2, char *valor,char *o
      }else{
           //Debo verificar en la columna si cada valor cumple o no la condicion
           int index = deleteIndex(base, operador, valor, -1);
-          if(index == 0 && ((strcmp(operador, "<") == 0 || strcmp(operador, ">") == 0) && strcasecmp(calificadorC(base), "PRIMARY_KEY") == 0)){ 
-               //Si el operador es > o < y quiero empezar a copiar desde el primer elemento de la primary key, quiero copiarlos a todos
-               cs2 = copiarTodasTuplas(cs1, cs2);
-          }else{
-               while(index != -1){
-                    cout<<"intento crear aux = cs2"<<endl;
-                    columnas aux = cs2;
-                    cs1 = revovinarCS(cs1);
-                    while(aux != NULL){
-                         aux->c = copiarValorTupla(cs1->c,aux->c, index);
-                         aux = aux->sig;
-                         if(cs1->sig != NULL)
-                              cs1 = cs1->sig;
-                    }
-                    index = deleteIndex(base, operador, valor, index);
+          while(index != -1){
+               columnas aux = cs2;
+               cs1 = revovinarCS(cs1);
+               while(aux != NULL){
+                    aux->c = copiarValorTupla(cs1->c,aux->c, index);
+                    aux = aux->sig;
+                    if(cs1->sig != NULL)
+                         cs1 = cs1->sig;
                }
+               index = deleteIndex(base, operador, valor, index);
           }
      }
      return cs2;

@@ -54,7 +54,7 @@ int insertionIndC(columna pk, char *valor){
           return insertionIndDS(pk->ds, valor, pk->tipoDato);
 }
 
-void insertIntoC(columna & c, const char *valorTupla, unsigned int insertionIndex){
+void insertIntoC(columna & c, const char *valorTupla,  int insertionIndex){
      c->ds = insertIntoDS(c->ds, valorTupla, insertionIndex);
 }
 
@@ -101,7 +101,7 @@ columna deleteAllC(columna c){
 	return c;
 }
 
-void printdatatableC(columna c,unsigned int iter,bool &termine){
+void printdatatableC(columna c, int iter,bool &termine){
      if(c->ds == NULL){
           cout << "La tabla no tiene tuplas"<<endl;
           termine = true;
@@ -115,7 +115,7 @@ columna copiarTodasTuplasC(columna base, columna copia){
      return copia;
 }
 
-columna copiarValorTupla(columna base ,columna copia,unsigned int index){
+columna copiarValorTupla(columna base ,columna copia, int index){
      copia->ds = copiarValorTuplaDS(base->ds, copia->ds, index);
      return copia;
 }
