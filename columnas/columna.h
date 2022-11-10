@@ -78,4 +78,10 @@ columna copiarTodasTuplasC(columna base, columna copia);
 columna copiarValorTupla(columna base ,columna copia, int index);
 //Copia el valor en la posicion index de la columna base, a la columna copia
 
+bool mismoEsquemaC(columna c1, columna c2);
+//Retorna true si la columna c1 tiene la misma metadata que la columna c2, false en caso contrario
+
+columna copiarTuplasConsecutivasC(columna c1, columna c2);
+//Copia las tuplas de c1 a c2
+
 #endif

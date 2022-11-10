@@ -81,4 +81,10 @@ columnas copiarTodasTuplas(columnas cs1,columnas cs2);
 //Copia todas las tuplas de la lista de columnas cs1 a cs2
 //Pre: cs2 ya debe tener todas las columnas(y su metadata) de la cs1
 
+bool mismoEsquemaCS(columnas c1, columnas c2);
+//Retorna true si la lista de columnas c1 tiene el mismo esquema que la lista de columnas c2
+
+columnas copiarTuplasConsecutivas(columnas c1, columnas c2, columnas c3);
+//Copia las tuplas de la lista de columnas c1 a c3 y luego de c2 a c3
+
 #endif

@@ -51,4 +51,13 @@ TipoRet selectWereT(char *valor,char *operador,char *col,tabla t1,tabla &t2);
 //Copia las columnas y las tuplas de t1 a t2 si cumplen la condición dada
 //Pre: Se debe indicar una columna existente en t1 para chequear la condición
 
+bool mismoEsquema(tabla t1, tabla t2);
+//Retorna true si el esquema de t1 == t2
+//Post: Si ambas tablas son nulas retorna false
+
+tabla unionT(tabla t1, tabla t2, tabla t3);
+//Copia todas las tuplas de las tablas t1 y t2 a t3
+//Pre: t1 y t2 deben tener el mismo esquema
+
+
 #endif

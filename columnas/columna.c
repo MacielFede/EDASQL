@@ -119,3 +119,15 @@ columna copiarValorTupla(columna base ,columna copia, int index){
      copia->ds = copiarValorTuplaDS(base->ds, copia->ds, index);
      return copia;
 }
+
+bool mismoEsquemaC(columna c1, columna c2){
+     if(strcasecmp(c1->calificador, c2->calificador) == 0 && strcasecmp(c1->nombre, c2->nombre) == 0 && strcasecmp(c1->tipoDato, c2->tipoDato) == 0 )
+          return true;
+     else 
+          return false;
+}
+
+columna copiarTuplasConsecutivasC(columna c1, columna c2){
+     c2->ds = copiarTuplasConsecutivasDS(c1->ds, c2->ds);
+     return c2;
+}

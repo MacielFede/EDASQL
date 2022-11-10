@@ -57,4 +57,8 @@ TipoRet selectWereTS(char *valor,char *operador,char *col,tabla t1, tabla &t2);
 //Dada 2 tablas, copia las tuplas de t1 a t2 dada una condición. Al ya estar ordenada t1, t2 queda ordenada
 //Pre: t1 y t2 != NULL
 
+TipoRet unionTS(tablas &ts, char *nombreTabla1, char *nombreTabla2, char *nombreTabla3);
+//Dadas 2 tablas, copia las tuplas de la tabla 1 y la tabla 2 en la nueva tabla 3
+//Pre: las tablas 1 y 2 deben existir, pero la 3 no.
+
 #endif

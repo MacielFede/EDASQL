@@ -193,3 +193,16 @@ void printMetadataTS(tabla t){
 TipoRet selectWereTS(char *valor,char *operador,char *col,tabla t1, tabla &t2){
      return selectWereT(valor,operador,col,t1,t2);
 }
+
+TipoRet unionTS(tablas &ts,char *nombreTabla1,char *nombreTabla2,char *nombreTabla3){
+	tabla t1 = buscarTabla(ts, nombreTabla1), t2 = buscarTabla(ts, nombreTabla2);
+     if(mismoEsquema(t1, t2)){
+          ts = createTableTS(ts, nombreTabla3);
+          tabla t3 = buscarTabla(ts, nombreTabla3);
+          t3 = unionT(t1,t2,t3);
+          return OK;
+     }else{
+          cout<<"La tabla 1 y la tabla 2 tienen distintos esquemas"<<endl;
+          return ERROR;
+     }
+}

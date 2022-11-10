@@ -135,20 +135,14 @@ datos suprDatos (datos ds){
 
 int deleteIndexDS(datos ds, char *operador,char *valor, char *tipoDato,int indiceAnterior){
      if(ds != NULL){
-          while(ds!=NULL && indiceAnterior > indiceDato(ds->d)-1)
-               ds = ds->sig;
           while(ds != NULL && !datoVacio(ds->d)){
-               cout<<"busco valor"<<endl;
-               cout<<"el operador es "<< operador <<endl;
-               cout<< "soy <? " <<(strcmp(operador, "<") == 0)<<endl;
-               cout<< "soy >? " <<(strcmp(operador, ">") == 0)<<endl;
                if(strcasecmp(valor, "EMPTY")){
                     if((strcmp(operador, "=") == 0 && strcmp(valor, infoDato(ds->d) ) == 0) || (strcmp(operador, "!") == 0 && strcmp(valor, infoDato(ds->d) ) != 0)){
                          //Si el el valor es igual a empty y el operador es =, O si el valor es distinto de empty y el operador es ! se cumple la condición
                          return indiceDato(ds->d);
                     }
-               }else if(strcmp(operador, "<") == 0){
-                    cout<< "entre al primer if"<<endl;
+               }
+               if (strcmp(operador, "<") == 0){
                     if(strcasecmp(tipoDato, "STRING") == 0){
                          if(strcmp(valor, infoDato(ds->d) ) > 0)
                               return indiceDato(ds->d);
@@ -162,7 +156,6 @@ int deleteIndexDS(datos ds, char *operador,char *valor, char *tipoDato,int indic
                          if(strcmp(valor, infoDato(ds->d)) < 0)
                               return indiceDato(ds->d);
                     }else{
-                         cout<<(atoi(valor) > atoi(infoDato(ds->d)))<<endl;
                          if(atoi(valor) < atoi(infoDato(ds->d))){
                               return indiceDato(ds->d);
                          }
@@ -250,7 +243,8 @@ void printdatatableDS(datos ds, int iter,bool &termine){
 }
 
 datos copiarTodasTuplasDS(datos base, datos copia){
-     while(base != NULL){
+     bool termine = false;
+     while(base != NULL && !termine){
           if(base->ant == NULL && base->sig != NULL){
                //Estoy en el primer dato y hay mas de 1 dato
                copia = new(nodo_datos);
@@ -262,27 +256,27 @@ datos copiarTodasTuplasDS(datos base, datos copia){
                copia = new(nodo_datos);
                copia->ant = NULL;
                copia->sig = NULL;
-               copia->d = insertIntoD(infoDato(base->d), indiceDato(base->d));
-               return copia;
+               termine = true;
           }else if(base->sig == NULL){
-               //Estoy en el ultimo dato y hay mas de 1 dato
+               //Estoy en el ultimo dato y ya copie todo los otros datos
                copia->sig = NULL;
-               copia->d = insertIntoD(infoDato(base->d), indiceDato(base->d));
-               copia = revovinarDS(copia);
-               return copia;
+               termine = true;
           }else{
                //Estoy en el medio
                copia->sig = new(nodo_datos);
                copia->sig->ant = copia;
           }
           copia->d = insertIntoD(infoDato(base->d), indiceDato(base->d));
-          copia = copia->sig;
-          base = base->sig;
+          if(!termine){
+               copia = copia->sig;
+               base = base->sig;
+          }
      }
+     copia = revovinarDS(copia);
+     return copia;
 }
 
 datos copiarValorTuplaDS(datos base,datos copia, int index){
-     cout<<"intento copiar alguna tupla"<<endl;
      while(base != NULL && indiceDato(base->d) < index) //Voy hasta el valor que tengo que copiar
           base = base->sig;
      int i = 0;
@@ -306,4 +300,29 @@ datos copiarValorTuplaDS(datos base,datos copia, int index){
           resetearIndice(copia->d, false);
      copia = revovinarDS(copia);
      return copia;
+}
+
+datos copiarTuplasConsecutivasDS(datos d1, datos d2){
+     if(d2 == NULL || datoVacio(d2->d))
+          d2 = copiarTodasTuplasDS(d1, d2);
+     else{
+          while(d2->sig != NULL)
+               d2 = d2->sig;
+          //Voy hasta el final de la lista y agrego todas las tuplas ahi
+          d2->sig = copiarTodasTuplasDS(d1, d2->sig);
+          d2->sig->ant = d2;
+          datos aux = d2;
+          int iter = indiceDato(d2->d);
+          //Reseteo los indices de las tuplas nuevas para que no se pierdan datos
+          while(aux!=NULL){
+               while(iter>indiceDato(aux->d))
+                    resetearIndice(aux->d, true);
+               while(iter<indiceDato(aux->d))
+                    resetearIndice(aux->d, false);
+               iter++;
+               aux = aux->sig;
+          }
+          d2 = revovinarDS(d2);
+     }
+     return d2;
 }

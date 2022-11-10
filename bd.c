@@ -153,8 +153,12 @@ TipoRet join (bd & bd, char * nomTabla1, char * nomTabla2, char * nomTabla3){
 }
 
 TipoRet union_(bd & bd, char * nombreTabla1, char * nombreTabla2, char * nombreTabla3){
-	//cout << " - union_ " << nombreTabla1 << " " << nombreTabla2 << " " << nombreTabla3 << endl;
-	return NO_IMPLEMENTADA;
+	if(encontreTS(bd->ts, nombreTabla1) && encontreTS(bd->ts,nombreTabla2) && !encontreTS(bd->ts, nombreTabla3))
+		return unionTS(bd->ts, nombreTabla1, nombreTabla2, nombreTabla3);
+	else{
+		cout << "Tabla 1 o Tabla 2 no existen, o Tabla 3 ya existe" << endl;
+		return ERROR;
+	}
 }
 
 TipoRet intersec(bd & bd, char * nombreTabla1, char * nombreTabla2, char * nombreTabla3){

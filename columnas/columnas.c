@@ -175,7 +175,7 @@ TipoRet insertIntoCS(columnas & cs, char *columnasTupla[], char *valoresTupla[],
                }
           }else{
           //Si no encuentro la columna quiere decir que le tengo que poner un valor empty
-               if(strcasecmp(calificadorC(cs->c), "NOT_EMPTY") == 0){
+               if(strcasecmp(calificadorC(cs->c), "NOT_EMPTY") == 0 || esPrimaryKey(cs->c)){
                     cout << "La columna " << nombreC(cs->c) << " no acepta valor empty" << endl;
                     return ERROR;
                }else
@@ -194,13 +194,12 @@ TipoRet deleteFromCS(columnas & cs, columna c, char *operador, char *valor){
      if(strcmp(valor, " ") == 0 || ((strcmp(operador, "!") == 0 && strcasecmp(valor, "EMPTY") == 0) && (strcasecmp(calificadorC(c), "NOT_EMPTY") == 0 || strcasecmp(calificadorC(c), "PRIMARY_KEY") == 0))){
           //Se borran todas las tuplas
           cs = deleteAll(cs);
-     }else if(strcasecmp(valor, "EMPTY") == 0 && (strcmp(operador, "<") == 0 || strcmp(operador, ">") == 0)){
+     }else if(strcasecmp(valor, "EMPTY") == 0 && (strcmp(operador, "<") == 0 || strcmp(operador, ">") == 0 || strcasecmp(calificadorC(c), "PRIMARY_KEY") == 0)){
           //No hago nada
      }else{
           //Debo verificar en la columna si cada valor cumple o no la condicion
           int index = deleteIndex(c, operador, valor, -1);
           while(index != -1){
-               cout<<"intento eliminar  "<< operador <<endl;
                columnas aux = cs;
                while(aux != NULL){
                     aux->c = deleteFromC(aux->c, index);
@@ -304,4 +303,41 @@ columnas copiarTodasTuplas(columnas cs1,columnas cs2){
           cs1 = cs1->sig;
      }
 	return cs2;
+}
+
+bool mismoEsquemaCS(columnas c1, columnas c2){
+     if(c1 == NULL && c2 == NULL)
+          return true;
+     else if(c1 == NULL || c2 == NULL)
+          return false;
+     else{
+          bool retorno = true;
+          while(c1 != NULL && c2!=NULL && retorno){
+               if(!mismoEsquemaC(c1->c, c2->c)){
+                    retorno = false;
+               }else{
+                    c1 = c1->sig;
+                    c2 = c2->sig;
+               }
+          }
+          if((c1 == NULL && c2 != NULL) || (c1 != NULL && c2 == NULL))
+               retorno = false;
+          return retorno;
+     }
+}
+
+columnas copiarTuplasConsecutivas(columnas c1, columnas c2, columnas c3){
+     columnas aux = c3;
+     while(aux != NULL){
+          aux->c = copiarTuplasConsecutivasC(c1->c, aux->c);
+          aux = aux->sig;
+          c1 = c1->sig;
+     }
+     aux = c3;
+     while(aux != NULL){
+          aux->c = copiarTuplasConsecutivasC(c2->c, aux->c);
+          aux = aux->sig;
+          c2 = c2->sig;
+     }
+     return c3;
 }

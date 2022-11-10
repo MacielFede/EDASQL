@@ -119,3 +119,16 @@ TipoRet selectWereT(char *valor,char *operador,char *col,tabla t1,tabla &t2){
           return OK;
      }
 }
+
+bool mismoEsquema(tabla t1, tabla t2){
+     if(t1 == NULL || t2 == NULL)
+          return false;
+     else
+          return mismoEsquemaCS(t1->cs, t2->cs);
+}
+
+tabla unionT(tabla t1, tabla t2, tabla t3){
+     t3->cs = copiarColumnas(t1->cs);
+     t3->cs = copiarTuplasConsecutivas(t1->cs, t2->cs, t3->cs);
+     return t3;
+}

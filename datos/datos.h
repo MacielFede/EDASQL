@@ -55,8 +55,12 @@ void printdatatableDS(datos ds,  int iter,bool &termine);
 datos copiarTodasTuplasDS(datos base, datos copia);
 //Copia los datos de la lista de datos base a la lista de datos copia
 //Pre: base != NULL
+//Post: Si copia ya tenia datos, estos son sobrescritos
 
 datos copiarValorTuplaDS(datos base,datos copia, int index);
 //Copia el valor que se encuentra en la posicion index de la lista de datos base, al ultimo lugar de la lista de datos copia
+
+datos copiarTuplasConsecutivasDS(datos d1, datos d2);
+//Copia todos los datos de d1 a d2
 
 #endif
