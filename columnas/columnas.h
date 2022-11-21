@@ -87,4 +87,13 @@ bool mismoEsquemaCS(columnas c1, columnas c2);
 columnas copiarTuplasConsecutivas(columnas c1, columnas c2, columnas c3);
 //Copia las tuplas de la lista de columnas c1 a c3 y luego de c2 a c3
 
+columnas selectCS (columnas c, char *nombre);
+// Retorna las columnas que sus solicitadas.
+// Pre: Las columnas deben existir
+
+columnas intersecCS (columnas cs1, columnas cs2);
+// Copia a cs3 unicamente las tuplas que existan en cs1 y en cs2
+// Pre: cs1 y cs2 deben existir.
+
+
 #endif

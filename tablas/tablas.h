@@ -8,8 +8,8 @@
 // Trabajo Obligatorio
 // Modulo de Implementación de Base de Datos.
 
-#include "tabla.h"
 
+#include "tabla.h"
 typedef struct nodo_tablas * tablas;
 
 tablas createTableTS(tablas ts, char *nombreTabla);
@@ -60,5 +60,12 @@ TipoRet selectWereTS(char *valor,char *operador,char *col,tabla t1, tabla &t2);
 TipoRet unionTS(tablas &ts, char *nombreTabla1, char *nombreTabla2, char *nombreTabla3);
 //Dadas 2 tablas, copia las tuplas de la tabla 1 y la tabla 2 en la nueva tabla 3
 //Pre: las tablas 1 y 2 deben existir, pero la 3 no.
+
+TipoRet selecTS(tablas &ts, char *Tabla1, char *Columnas, char *Tabla2);
+//Copia las columnas indicadas en Columnas de la Tabla 1 y a la nueva Tabla 2
+//Pre: las tabla 1 debe existir, pero la 2 no.
+
+TipoRet intersecTS(tablas &ts, char * Tabla1, char * Tabla2, char * Tabla3);
+//Crea Tabla 3 y le copia las tuplas que existan en Tabla 1 y tambien existan en la Tabla 2
 
 #endif

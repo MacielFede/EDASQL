@@ -116,8 +116,8 @@ columna copiarTodasTuplasC(columna base, columna copia){
 }
 
 columna copiarValorTupla(columna base ,columna copia, int index){
-     copia->ds = copiarValorTuplaDS(base->ds, copia->ds, index);
-     return copia;
+	copia->ds = copiarValorTuplaDS (base->ds, copia->ds, index);
+	return copia;
 }
 
 bool mismoEsquemaC(columna c1, columna c2){
@@ -130,4 +130,18 @@ bool mismoEsquemaC(columna c1, columna c2){
 columna copiarTuplasConsecutivasC(columna c1, columna c2){
      c2->ds = copiarTuplasConsecutivasDS(c1->ds, c2->ds);
      return c2;
+}
+
+int esCandidato (columna c1, columna c2, int indice){
+// Si el dato de c1 en posicion indice tambien existe en c2, retorna el indice de c2
+// En caso contrario retorna -1.
+// Pre: c1 y c2 deben existir, el indice debe pertenecer a c1
+	return buscaDato (c1->ds, c2->ds, indice);
+}
+
+bool datosIgualesC(columna c1, columna c2, int indice1, int indice2){
+// Retorna TRUE si el dato de (c1,indice1) es el mismo que el dato de (c2,indice2)
+// Retorna FALSE en caso contrario
+// Pre: c1 y c2 deben existir, y los indices deben pertenecer a sus respectivas columnas
+	return datosIgualesDS(c1->ds, c2->ds, indice1, indice2);
 }

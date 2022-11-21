@@ -144,7 +144,17 @@ TipoRet selectWhere (bd & bd,char * nomTabla1, char * condicion, char * nomTabla
 
 TipoRet select (bd & bd, char * nomTabla1, char * nomColumnas, char * nomTabla2){
 	//cout << " - select " << nomTabla1 << " " << nomColumnas << " " << nomTabla2 << endl;
-	return NO_IMPLEMENTADA;
+	if (!encontreTS(bd->ts, nomTabla1)){
+		cout << "No existe la de Tabla de Origen." <<endl;
+		return ERROR;
+	}
+	else if(encontreTS(bd->ts,nomTabla2)){
+		cout << "Ya existe la Tabla Origen." <<endl;
+		return ERROR;
+	}
+	else{
+		return selecTS(bd->ts, nomTabla1, nomColumnas, nomTabla2);
+	}
 }
 
 TipoRet join (bd & bd, char * nomTabla1, char * nomTabla2, char * nomTabla3){
@@ -162,8 +172,33 @@ TipoRet union_(bd & bd, char * nombreTabla1, char * nombreTabla2, char * nombreT
 }
 
 TipoRet intersec(bd & bd, char * nombreTabla1, char * nombreTabla2, char * nombreTabla3){
-	//cout << " - intersec " << nombreTabla1 << " " << nombreTabla2 << " " << nombreTabla3 << endl;
-	return NO_IMPLEMENTADA;
+	if (strlen (nombreTabla1) == 0){
+		cout << "No se especifico el nombre de la Tabla 1." <<endl;
+		return ERROR;
+	}
+	else if (!encontreTS(bd->ts, nombreTabla1)){
+		cout << "No existe la Tabla 1." <<endl;
+		return ERROR;
+	}
+	else if (strlen (nombreTabla2) == 0){
+		cout << "No se especifico el nombre de la Tabla 2." <<endl;
+		return ERROR;
+	}
+	else if(!encontreTS(bd->ts, nombreTabla2)){
+		cout << "No existe la Tabla 2." <<endl;
+		return ERROR;
+	}
+	else if (strlen (nombreTabla3) == 0){
+		cout << "No se especifico el nombre de la Tabla Nueva." <<endl;
+		return ERROR;
+	}
+	else if(encontreTS(bd->ts,nombreTabla3)){
+		cout << "Ya existe una tabla con el mismo nombre de la Tabla Nueva." <<endl;
+		return ERROR;
+	}
+	else{
+		return intersecTS(bd->ts, nombreTabla1, nombreTabla2, nombreTabla3);
+	}
 }
 
 TipoRet minus_(bd & bd, char * nombreTabla1, char * nombreTabla2, char * nombreTabla3){

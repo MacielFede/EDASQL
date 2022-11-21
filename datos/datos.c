@@ -12,36 +12,37 @@ using namespace std;
 #include <string.h>
 #include "datos.h"
 
-struct nodo_datos{
+struct nodo_datos {
      dato d;
      datos sig;
      datos ant;
 };
 
-datos revovinarDS(datos ds){
-     while(ds->ant != NULL)
+datos revovinarDS(datos ds) {
+     while (ds->ant != NULL)
           ds = ds->ant;
      return ds;
 }
 
-bool seRepiteDato(datos ds, char *dato){
-     if(ds == NULL)
+bool seRepiteDato(datos ds, char* dato) {
+     if (ds == NULL)
           return false;
-     else if(strcasecmp(infoDato(ds->d), dato) == 0)
+     else if (strcasecmp(infoDato(ds->d), dato) == 0)
           return true;
      else
           return seRepiteDato(ds->sig, dato);
 }
 
-int insertionIndDS(datos ds,char *valor, char *tipoD){
+int insertionIndDS(datos ds, char* valor, char* tipoD) {
      int iter = 0;
-     if(strcasecmp(tipoD, "STRING") == 0){
-          while(ds!=NULL && strcmp(valor, infoDato(ds->d))  > 0){
+     if (strcasecmp(tipoD, "STRING") == 0) {
+          while (ds != NULL && strcmp(valor, infoDato(ds->d)) > 0) {
                iter++;
                ds = ds->sig;
           }
-     }else{
-          while(ds!=NULL && atoi(valor) > atoi(infoDato(ds->d))){
+     }
+     else {
+          while (ds != NULL && atoi(valor) > atoi(infoDato(ds->d))) {
                iter++;
                ds = ds->sig;
           }
@@ -49,36 +50,39 @@ int insertionIndDS(datos ds,char *valor, char *tipoD){
      return iter;
 }
 
-datos insertIntoDS(datos ds,const char *valorTupla,  int insertionIndex){
-     if(ds == NULL){
+datos insertIntoDS(datos ds, const char* valorTupla, int insertionIndex) {
+     if (ds == NULL) {
           ds = new(nodo_datos);
           ds->sig = NULL;
           ds->ant = NULL;
           ds->d = insertIntoD(valorTupla, 0);
           return ds;
-     }else{
+     }
+     else {
           datos aux = new(nodo_datos), ant;
           aux->d = insertIntoD(valorTupla, insertionIndex);
-          for ( int index = 0; index < insertionIndex; index++){
+          for (int index = 0; index < insertionIndex; index++) {
                ant = ds;
                ds = ds->sig;
           }
-          if(insertionIndex == 0){
+          if (insertionIndex == 0) {
                aux->ant = NULL;
                aux->sig = ds;
                ds->ant = aux;
                ant = aux;
-          }else if(ds == NULL){
+          }
+          else if (ds == NULL) {
                ant->sig = aux;
                aux->sig = NULL;
                aux->ant = ant;
-          }else{
+          }
+          else {
                ant->sig = aux;
                ds->ant = aux;
                aux->ant = ant;
                aux->sig = ds;
           }
-          while(ds != NULL){
+          while (ds != NULL) {
                resetearIndice(ds->d, true);
                ds = ds->sig;
           }
@@ -87,16 +91,16 @@ datos insertIntoDS(datos ds,const char *valorTupla,  int insertionIndex){
      }
 }
 
-int cuentaTuplasDs(datos ds){
-	if (ds!=NULL && ds->d!=NULL){
-          int max = indiceDato (ds-> d);
+int cuentaTuplasDs(datos ds) {
+     if (ds != NULL && ds->d != NULL) {
+          int max = indiceDato(ds->d);
           int actual;
-          datos iter=ds;
-          while (iter != NULL){
-               actual=indiceDato (iter->d);
+          datos iter = ds;
+          while (iter != NULL) {
+               actual = indiceDato(iter->d);
                if (max < actual)
                     max = actual;
-               iter=iter->sig;
+               iter = iter->sig;
           }
           return max;
      }
@@ -104,111 +108,121 @@ int cuentaTuplasDs(datos ds){
           return 0;
 }
 
-datos llenaEmpty(int tups){
-	datos iter = NULL;
-	datos ds = NULL;
-	for (int i=0; i<=tups; i++){
-		datos aux = new (nodo_datos); 
-		aux -> d = datoEmpty (i);
-		aux -> ant = iter; 
-		aux -> sig = NULL;
-		if (i==0)
-			ds = aux;
-		else 
-			aux->ant->sig=aux;
-		iter = aux;
-	}
-	return ds;
+datos llenaEmpty(int tups) {
+     datos iter = NULL;
+     datos ds = NULL;
+     for (int i = 0; i <= tups; i++) {
+          datos aux = new (nodo_datos);
+          aux->d = datoEmpty(i);
+          aux->ant = iter;
+          aux->sig = NULL;
+          if (i == 0)
+               ds = aux;
+          else
+               aux->ant->sig = aux;
+          iter = aux;
+     }
+     return ds;
 }
 
-datos suprDatos (datos ds){
-	if (ds != NULL){
-		while (ds != NULL){
-			datos aux = ds;
-			ds = ds -> sig;
-			aux -> d = deleteFromD (ds -> d);
-			delete aux;
-		}
-	}
-	return ds;
+datos suprDatos(datos ds) {
+     if (ds != NULL) {
+          while (ds != NULL) {
+               datos aux = ds;
+               ds = ds->sig;
+               aux->d = deleteFromD(ds->d);
+               delete aux;
+          }
+     }
+     return ds;
 }
 
-int deleteIndexDS(datos ds, char *operador,char *valor, char *tipoDato,int indiceAnterior){
-     if(ds != NULL){
-          while(ds != NULL && !datoVacio(ds->d)){
-               if(strcasecmp(valor, "EMPTY")){
-                    if((strcmp(operador, "=") == 0 && strcmp(valor, infoDato(ds->d) ) == 0) || (strcmp(operador, "!") == 0 && strcmp(valor, infoDato(ds->d) ) != 0)){
-                         //Si el el valor es igual a empty y el operador es =, O si el valor es distinto de empty y el operador es ! se cumple la condición
+int deleteIndexDS(datos ds, char* operador, char* valor, char* tipoDato, int indiceAnterior) {
+     while (ds != NULL && indiceDato(ds->d) <= indiceAnterior)
+          ds = ds->sig;
+     while (ds != NULL) {
+          if (strcasecmp(valor, "EMPTY")) {
+               if ((strcmp(operador, "=") == 0 && strcmp(valor, infoDato(ds->d)) == 0) || (strcmp(operador, "!") == 0 && strcmp(valor, infoDato(ds->d)) != 0)) {
+                    //Si el el valor es igual a empty y el operador es =, O si el valor es distinto de empty y el operador es ! se cumple la condición
+                    return indiceDato(ds->d);
+               }
+          }
+          if (strcmp(operador, "<") == 0) {
+               if (strcasecmp(tipoDato, "STRING") == 0) {
+                    if (strcmp(valor, infoDato(ds->d)) > 0)
+                         return indiceDato(ds->d);
+               }
+               else {
+                    if (atoi(valor) > atoi(infoDato(ds->d))) {
                          return indiceDato(ds->d);
                     }
                }
-               if (strcmp(operador, "<") == 0){
-                    if(strcasecmp(tipoDato, "STRING") == 0){
-                         if(strcmp(valor, infoDato(ds->d) ) > 0)
-                              return indiceDato(ds->d);
-                    }else{
-                         if(atoi(valor) > atoi(infoDato(ds->d))){
-                              return indiceDato(ds->d);
-                         }
-                    }
-               }else if(strcmp(operador, ">") == 0){
-                    if(strcasecmp(tipoDato, "STRING") == 0){
-                         if(strcmp(valor, infoDato(ds->d)) < 0)
-                              return indiceDato(ds->d);
-                    }else{
-                         if(atoi(valor) < atoi(infoDato(ds->d))){
-                              return indiceDato(ds->d);
-                         }
-                    }
-               }else if(strcmp(operador, "=") == 0){
-                    if(strcasecmp(tipoDato, "STRING") == 0){
-                         if(strcmp(valor, infoDato(ds->d))==0)
-                              return indiceDato(ds->d);
-                    }else{
-                         if(atoi(valor) == atoi(infoDato(ds->d)))
-                              return indiceDato(ds->d);
-                    }
-               }else{
-                    //Operador es !
-                    if(strcasecmp(tipoDato, "STRING") == 0){
-                         if(strcmp(valor, infoDato(ds->d))  != 0)
-                              return indiceDato(ds->d);
-                    }else{
-                         if(atoi(valor) != atoi(infoDato(ds->d)))
-                              return indiceDato(ds->d);
+          }
+          else if (strcmp(operador, ">") == 0) {
+               if (strcasecmp(tipoDato, "STRING") == 0) {
+                    if (strcmp(valor, infoDato(ds->d)) < 0)
+                         return indiceDato(ds->d);
+               }
+               else {
+                    if (atoi(valor) < atoi(infoDato(ds->d))) {
+                         return indiceDato(ds->d);
                     }
                }
-               ds = ds->sig;
           }
+          else if (strcmp(operador, "=") == 0) {
+               if (strcasecmp(tipoDato, "STRING") == 0) {
+                    if (strcmp(valor, infoDato(ds->d)) == 0)
+                         return indiceDato(ds->d);
+               }
+               else {
+                    if (atoi(valor) == atoi(infoDato(ds->d)))
+                         return indiceDato(ds->d);
+               }
+          }
+          else {
+               //Operador es !
+               if (strcasecmp(tipoDato, "STRING") == 0) {
+                    if (strcmp(valor, infoDato(ds->d)) != 0)
+                         return indiceDato(ds->d);
+               }
+               else {
+                    if (atoi(valor) != atoi(infoDato(ds->d)))
+                         return indiceDato(ds->d);
+               }
+          }
+          ds = ds->sig;
      }
      return -1;
 }
 
-datos deleteFromDS(datos ds, int index){
-     while(indiceDato(ds->d) < index)
+datos deleteFromDS(datos ds, int index) {
+     while (indiceDato(ds->d) < index)
           ds = ds->sig;
      datos aux;
      bool quieroRes = true;
-     if(index == 0){
-          if(ds->sig == NULL){
+     if (index == 0) {
+          if (ds->sig == NULL) {
                ds->d = deleteFromD(ds->d);
                delete ds;
                return NULL;
-          }else{
+          }
+          else {
                aux = ds->sig;
                aux->ant = NULL;
           }
-     }else if(ds->sig == NULL){
+     }
+     else if (ds->sig == NULL) {
           aux = ds->ant;
           aux->sig = NULL;
           quieroRes = false;
-     }else{
+     }
+     else {
           aux = ds->sig;
           aux->ant = ds->ant;
           ds->ant->sig = aux;
      }
-     if(quieroRes){
-          while(aux->sig != NULL){
+     if (quieroRes) {
+          while (aux->sig != NULL) {
                resetearIndice(aux->d, false);
                aux = aux->sig;
           }
@@ -221,53 +235,56 @@ datos deleteFromDS(datos ds, int index){
 }
 
 
-datos deleteAllDS(datos ds){
-	if( ds != NULL){
-		while(ds!= NULL){
-			datos aux = ds;
-			ds = ds->sig;
-			aux->d = deleteFromD(aux->d);
-			delete aux;
-		}
-	}
-	return NULL;
+datos deleteAllDS(datos ds) {
+     if (ds != NULL) {
+          while (ds != NULL) {
+               datos aux = ds;
+               ds = ds->sig;
+               aux->d = deleteFromD(aux->d);
+               delete aux;
+          }
+     }
+     return NULL;
 }
 
-void printdatatableDS(datos ds, int iter,bool &termine){
-     while (ds != NULL && indiceDato(ds->d)<iter)
+void printdatatableDS(datos ds, int iter, bool& termine) {
+     while (ds != NULL && indiceDato(ds->d) < iter)
           ds = ds->sig;
-     if(ds == NULL)
+     if (ds == NULL)
           termine = true;
      else
-          cout<< infoDato(ds->d);
+          cout << infoDato(ds->d);
 }
 
-datos copiarTodasTuplasDS(datos base, datos copia){
+datos copiarTodasTuplasDS(datos base, datos copia) {
      bool termine = false;
-     while(base != NULL && !termine){
-          if(base->ant == NULL && base->sig != NULL){
+     while (base != NULL && !termine) {
+          if (base->ant == NULL && base->sig != NULL) {
                //Estoy en el primer dato y hay mas de 1 dato
                copia = new(nodo_datos);
                copia->ant = NULL;
                copia->sig = new(nodo_datos);
                copia->sig->ant = copia;
-          }else if(base->ant == NULL && base->sig == NULL){
+          }
+          else if (base->ant == NULL && base->sig == NULL) {
                //Estoy en el primer dato y hay 1 dato
                copia = new(nodo_datos);
                copia->ant = NULL;
                copia->sig = NULL;
                termine = true;
-          }else if(base->sig == NULL){
+          }
+          else if (base->sig == NULL) {
                //Estoy en el ultimo dato y ya copie todo los otros datos
                copia->sig = NULL;
                termine = true;
-          }else{
+          }
+          else {
                //Estoy en el medio
                copia->sig = new(nodo_datos);
                copia->sig->ant = copia;
           }
           copia->d = insertIntoD(infoDato(base->d), indiceDato(base->d));
-          if(!termine){
+          if (!termine) {
                copia = copia->sig;
                base = base->sig;
           }
@@ -276,37 +293,37 @@ datos copiarTodasTuplasDS(datos base, datos copia){
      return copia;
 }
 
-datos copiarValorTuplaDS(datos base,datos copia, int index){
-     while(base != NULL && indiceDato(base->d) < index) //Voy hasta el valor que tengo que copiar
+datos copiarValorTuplaDS(datos base, datos copia, int index) {
+     while (base != NULL && indiceDato(base->d) < index) //Voy hasta el valor que tengo que copiar
           base = base->sig;
      int i = 0;
-     if(copia == NULL){
+     if (copia == NULL) {
           copia = new(nodo_datos);
           copia->ant = NULL;
           copia->sig = NULL;
-     }else{
-          while(copia->sig != NULL){
-           //Voy hasta el ultimo lugar para insertar en orden de llegada
+     }
+     else {
+          while (copia->sig != NULL) {
+               //Voy hasta el ultimo lugar para insertar en orden de llegada
                copia = copia->sig;
                i++;
           }
+          i++;
           copia->sig = new(nodo_datos);
           copia->sig->ant = copia; //Anclo el dato siguiente con el actual
           copia = copia->sig;
           copia->sig = NULL;
      }
-     copia->d = insertIntoD(infoDato(base->d), index);
-     while(i < indiceDato(copia->d))
-          resetearIndice(copia->d, false);
+     copia->d = insertIntoD(infoDato(base->d), i);
      copia = revovinarDS(copia);
      return copia;
 }
 
-datos copiarTuplasConsecutivasDS(datos d1, datos d2){
-     if(d2 == NULL || datoVacio(d2->d))
+datos copiarTuplasConsecutivasDS(datos d1, datos d2) {
+     if (d2 == NULL || datoVacio(d2->d))
           d2 = copiarTodasTuplasDS(d1, d2);
-     else{
-          while(d2->sig != NULL)
+     else {
+          while (d2->sig != NULL)
                d2 = d2->sig;
           //Voy hasta el final de la lista y agrego todas las tuplas ahi
           d2->sig = copiarTodasTuplasDS(d1, d2->sig);
@@ -314,10 +331,10 @@ datos copiarTuplasConsecutivasDS(datos d1, datos d2){
           datos aux = d2;
           int iter = indiceDato(d2->d);
           //Reseteo los indices de las tuplas nuevas para que no se pierdan datos
-          while(aux!=NULL){
-               while(iter>indiceDato(aux->d))
+          while (aux != NULL) {
+               while (iter > indiceDato(aux->d))
                     resetearIndice(aux->d, true);
-               while(iter<indiceDato(aux->d))
+               while (iter < indiceDato(aux->d))
                     resetearIndice(aux->d, false);
                iter++;
                aux = aux->sig;
@@ -325,4 +342,59 @@ datos copiarTuplasConsecutivasDS(datos d1, datos d2){
           d2 = revovinarDS(d2);
      }
      return d2;
+}
+
+int buscaDato(datos ds1, datos ds2, int indice) {
+     ds1 = revovinarDS(ds1);
+     ds2 = revovinarDS(ds2);
+     while (indiceDato(ds1->d) != indice) { // Busco el dato con el indice que me pasan
+          ds1 = ds1->sig;
+     }
+     while (ds2 != NULL && (strcmp((infoDato(ds1->d)), (infoDato(ds2->d))) != 0)) { //Busco si en ds2 existe el mismo dato que en ds1
+          ds2 = ds2->sig;
+     }
+     if (ds2 == NULL)
+          return -1;
+     else
+          return indiceDato(ds2->d);
+}
+
+bool datosIgualesDS(datos ds1, datos ds2, int indice1, int indice2) {
+     ds1 = revovinarDS(ds1);
+     ds2 = revovinarDS(ds2);
+     while (indiceDato(ds1->d) != indice1) { // Busco el dato en ds1 con el indice1 que me pasan
+          ds1 = ds1->sig;
+     }
+     while (indiceDato(ds2->d) != indice2) { // Busco el dato en ds2 con el indice2 que me pasan
+          ds2 = ds2->sig;
+     }
+     if (strcmp((infoDato(ds1->d)), (infoDato(ds2->d))) == 0) {
+          return true;
+     }
+     else
+          return false;
+}
+
+datos copiarTuplaDS(datos ds1, datos ds2, int index) {
+     int i = 0;
+     if (ds2 == NULL) {
+          ds2 = new(nodo_datos);
+          ds2->ant = NULL;
+          ds2->sig = NULL;
+     }
+     else {
+          while (ds2->sig != NULL) {
+               ds2 = ds2->sig;
+               i++;
+          }
+          ds2->sig = new(nodo_datos);
+          ds2->sig->ant = ds2; //Engancho el dato nuevo como siguiente del actual
+          ds2 = ds2->sig;
+          ds2->sig = NULL;
+     }
+     while (indiceDato(ds1->d) != index)
+          ds1 = ds1->sig;
+     ds2->d = ds1->d;
+     ds2 = revovinarDS(ds2);
+     return ds2;
 }

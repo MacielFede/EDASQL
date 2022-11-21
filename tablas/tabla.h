@@ -35,7 +35,6 @@ TipoRet dropColT (tabla &t, char* NombreCol);
 // Elimina de la tabla t la columna NombreCol.
 // Pre: La tabla t existe
 
-
 void printdatatableT(tabla t);
 //Dada una tabla imprime toda la informacion contenida
 //Pre: la tabla debe != NULL
@@ -59,5 +58,16 @@ tabla unionT(tabla t1, tabla t2, tabla t3);
 //Copia todas las tuplas de las tablas t1 y t2 a t3
 //Pre: t1 y t2 deben tener el mismo esquema
 
+bool ColPertenece (tabla t1, char *Columnas);
+// Retorna TRUE si todas las Columnas indicadas existen en la tabla t1, 
+// Retorna FALSE en caso contrario
+//Pre: La tabla t1 debe existir
 
+tabla selecT (tabla t1, char* Columnas, tabla t2);
+// Copia las Columnas indicadas de la tabla t1 a la tabla t2
+//Pre: t1 y t2 deben existir
+
+tabla intersecT (tabla t1,tabla t2, tabla t3);
+// Copia a t3 unicamente las tuplas que existan en t1 y en t2
+// Pre: t1, t2 y t3 deben existir.
 #endif

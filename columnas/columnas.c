@@ -90,8 +90,8 @@ TipoRet addColCS (columnas & cs, char *NombreCol, char *tipoCol, char *calificad
 				if (strcmp (nombreC(cs->c), NombreCol) !=0){
                          columnas col=new (nodo_columnas); 
                          col-> ant = cs;
-					col-> sig = NULL;
-					col-> c = nuevaCol(cantidadTuplas(cs),NombreCol, tipoCol,calificadorCol);
+					     col-> sig = NULL;
+					     col-> c = nuevaCol(cantidadTuplas(cs),NombreCol, tipoCol,calificadorCol);
                          cs-> sig = col;
                          cs = revovinarCS(cs);
                          return OK;
@@ -205,7 +205,7 @@ TipoRet deleteFromCS(columnas & cs, columna c, char *operador, char *valor){
                     aux->c = deleteFromC(aux->c, index);
                     aux = aux->sig;
                }
-               index = deleteIndex(c, operador, valor, index);
+               index = deleteIndex(c, operador, valor, -1);
           }
      }
      return OK;
@@ -272,7 +272,7 @@ columnas copiarColumnas(columnas cs){
 }
 
 columnas copiarDatos(columnas cs1,columna base,columnas cs2, char *valor,char *operador){
-     if(strcmp(valor, " ") == 0 || ((strcmp(operador, "!") == 0 && strcasecmp(valor, "EMPTY") == 0) && (strcasecmp(calificadorC(base), "NOT_EMPTY") == 0 || strcasecmp(calificadorC(base), "PRIMARY_KEY") == 0))){
+	if(strcmp(valor, " ") == 0 || ((strcmp(operador, "!") == 0 && strcasecmp(valor, "EMPTY") == 0) && (strcasecmp(calificadorC(base), "NOT_EMPTY") == 0 || strcasecmp(calificadorC(base), "PRIMARY_KEY") == 0))){
           //Copio todas las tuplas
           cs2 = copiarTodasTuplas(cs1, cs2);
      }else if(strcasecmp(valor, "EMPTY") == 0 && (strcmp(operador, "<") == 0 || strcmp(operador, ">") == 0)){
@@ -281,13 +281,12 @@ columnas copiarDatos(columnas cs1,columna base,columnas cs2, char *valor,char *o
           //Debo verificar en la columna si cada valor cumple o no la condicion
           int index = deleteIndex(base, operador, valor, -1);
           while(index != -1){
-               columnas aux = cs2;
-               cs1 = revovinarCS(cs1);
-               while(aux != NULL){
-                    aux->c = copiarValorTupla(cs1->c,aux->c, index);
-                    aux = aux->sig;
-                    if(cs1->sig != NULL)
-                         cs1 = cs1->sig;
+               columnas aux1 = cs1;
+               columnas aux2 = cs2;
+               while(aux2 != NULL && aux1!=NULL){
+                    aux2->c = copiarValorTupla(aux1->c,aux2->c, index);
+                    aux2 = aux2->sig;
+                    aux1 = aux1->sig;
                }
                index = deleteIndex(base, operador, valor, index);
           }
@@ -340,4 +339,78 @@ columnas copiarTuplasConsecutivas(columnas c1, columnas c2, columnas c3){
           c2 = c2->sig;
      }
      return c3;
+}
+
+
+columnas selectCS (columnas cs, char * nombre){
+	char * nombreCol = strtok (nombre, ":");
+	columna c1 = buscarColumna(cs, nombreCol);
+	columnas aux = new (nodo_columnas);
+	columnas iter = NULL;
+	aux -> c = nuevaCol (0, nombreC(c1), tipoDatoC(c1), calificadorC(c1));
+	aux -> c = copiarTodasTuplasC (c1, aux->c);
+	aux -> ant = NULL;
+	aux -> sig = NULL;
+	nombreCol = strtok (NULL, ":");
+	while (nombreCol != NULL){
+		if(nombreCol != NULL){
+			iter=aux;
+			columnas aux = new (nodo_columnas);
+			c1 = buscarColumna(cs, nombreCol);
+			aux -> c = nuevaCol (0, nombreC(c1), tipoDatoC(c1), calificadorC(c1));
+			aux -> c = copiarTodasTuplasC (c1, aux->c);
+			iter -> sig = aux;
+			aux -> ant = iter;
+			aux -> sig = NULL;
+			nombreCol = strtok (NULL, ":");
+		}
+	}
+	aux=revovinarCS (aux);
+	return aux;
+}
+
+columnas intersecCS (columnas cs1, columnas cs2){
+	columnas cs3 = new (nodo_columnas);
+	int tope, index;
+	columnas aux, aux2;
+	cs1=revovinarCS(cs1);
+	cs2=revovinarCS(cs2);
+	int tup1=cantidadTuplas (cs1);
+	int tup2=cantidadTuplas (cs2);
+	if (tup1<tup2){
+		tope = tup1;
+		cs3 = copiarColumnas (cs1);
+	}
+	else{
+		tope = tup2;
+		cs3 = copiarColumnas (cs2);
+	}
+	for (int i=0; i<=tope; i++){ // Recorro todas las tuplas de la columna
+		index = esCandidato (cs1->c, cs2->c, i);
+		cs1 = revovinarCS (cs1);
+		cs2 = revovinarCS (cs2);
+		if (index!=-1){ // Si el dato coincide
+			aux=cs1;
+			cs1 = revovinarCS (cs1);
+			while (cs1!=NULL && datosIgualesC(cs1->c, buscarColumna(cs2,nombreC(cs1->c)), i, index)){ // Mientras no se terminen las columnas y tengan el mismo dato
+				cs1=cs1 -> sig;
+				cs2=revovinarCS(cs2);	
+			}
+			if (cs1 == NULL){	// La tupla es igual en todas las columnas de ambas tablas
+				cs1 = aux;
+				cs3 = revovinarCS (cs3);
+				aux2 = cs3;
+				aux = cs1;
+				while (cs1!= NULL){
+					cs3->c = copiarValorTupla(cs1->c,cs3->c, index);
+					cs1=cs1->sig;
+					cs3=cs3->sig;
+				}
+				cs3= revovinarCS(aux2);
+				cs1= revovinarCS(aux);
+			}
+		}
+	}
+	cs3=revovinarCS(cs3);
+	return cs3;
 }

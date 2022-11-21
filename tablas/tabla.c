@@ -132,3 +132,28 @@ tabla unionT(tabla t1, tabla t2, tabla t3){
      t3->cs = copiarTuplasConsecutivas(t1->cs, t2->cs, t3->cs);
      return t3;
 }
+
+bool ColPertenece (tabla t1, char *Columnas){
+	char * col = strtok(Columnas, ":");
+	if (encontreCS(t1->cs, col)){
+		do{
+               col = strtok (NULL, ":");
+		}while (col != NULL && encontreCS(t1->cs, col));
+		if (col == NULL) // Sale del while xq todas las columnas indicadas pertenecen
+			return true;
+		else
+			return false;
+	}
+	else 
+		return false;
+}
+
+tabla selecT (tabla t1, char *Columnas, tabla t2){
+	t2->cs = selectCS (t1->cs, Columnas);
+	return t2;
+}
+
+tabla intersecT (tabla t1,tabla t2, tabla t3){
+	t3->cs= intersecCS (t1->cs, t2->cs);
+	return t3;
+}

@@ -15,7 +15,7 @@ bool columnaVacia(columna col);
 //Retorna true si la columna c esta vacia y false en caso contrario
 
 char * nombreC(columna c);
-//Retorna el nombre de la tabla indicada
+//Retorna el nombre de la columna indicada
 //Pre: la columna debe existir
 
 char * calificadorC(columna c);
@@ -83,5 +83,15 @@ bool mismoEsquemaC(columna c1, columna c2);
 
 columna copiarTuplasConsecutivasC(columna c1, columna c2);
 //Copia las tuplas de c1 a c2
+
+int esCandidato (columna c1, columna c2, int indice);
+// Si el dato de c1 en posicion indice tambien existe en c2, retorna el indice de c2
+// En caso contrario retorna -1.
+// Pre: c1 y c2 deben existir, el indice debe pertenecer a c1
+
+bool datosIgualesC(columna c1, columna c2, int indice1, int indice2);
+// Retorna TRUE si el dato de (c1,indice1) es el mismo que el dato de (c2,indice2)
+// Retorna FALSE en caso contrario
+// Pre: c1 y c2 deben existir, y los indices deben pertenecer a sus respectivas columnas
 
 #endif

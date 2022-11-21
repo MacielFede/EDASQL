@@ -8,8 +8,8 @@
 // bd.h
 // Modulo de Definición de Base de Datos.
 
-typedef struct nodo_bd * bd;
 #include "define.h"
+typedef struct nodo_bd * bd;
 
 
 bd createBD();

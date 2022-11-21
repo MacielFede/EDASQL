@@ -7,7 +7,7 @@
 // Trabajo Obligatorio
 // Modulo de Implementación de Base de Datos.
 
-
+;
 typedef struct nodo_datos * datos;
 
 datos revovinarDS(datos ds);
@@ -62,5 +62,17 @@ datos copiarValorTuplaDS(datos base,datos copia, int index);
 
 datos copiarTuplasConsecutivasDS(datos d1, datos d2);
 //Copia todos los datos de d1 a d2
+
+int buscaDato (datos ds1, datos ds2, int indice);
+// Retorna el indice del dato en ds2 que contiene la misma informacion que (ds1, indice)
+// Pre: ds1 y ds2 deben existir, indice debe existir en ds1
+
+bool datosIgualesDS(datos ds1, datos ds2, int indice1, int indice2);
+// Retorna TRUE si el dato con indice1 de ds1 es igual al dato con indice2 de ds2
+// Retorna FALSE en caso contrario
+// Pre: ds1 y ds2 deben existir, indice1 e indice2 deben pertenecer  a sus respectivos datos.  
+
+datos copiarTuplaDS (datos ds1, datos ds2, int index);
+// Copia el dato en la posicion index de ds1 al final de ds2
 
 #endif

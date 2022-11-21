@@ -191,7 +191,7 @@ void printMetadataTS(tabla t){
 }
 
 TipoRet selectWereTS(char *valor,char *operador,char *col,tabla t1, tabla &t2){
-     return selectWereT(valor,operador,col,t1,t2);
+	return selectWereT(valor,operador,col,t1,t2);
 }
 
 TipoRet unionTS(tablas &ts,char *nombreTabla1,char *nombreTabla2,char *nombreTabla3){
@@ -205,4 +205,31 @@ TipoRet unionTS(tablas &ts,char *nombreTabla1,char *nombreTabla2,char *nombreTab
           cout<<"La tabla 1 y la tabla 2 tienen distintos esquemas"<<endl;
           return ERROR;
      }
+}
+
+TipoRet selecTS(tablas &ts, char *Tabla1, char *Columnas, char *Tabla2){
+	char* aux = new(char[MAX_NOMBRE]);
+	strcpy (aux, Columnas);
+	tabla t1 = buscarTabla (ts, Tabla1);
+	if (ColPertenece (t1, aux)){
+		ts = createTableTS(ts, Tabla2);
+		tabla t2 = buscarTabla (ts, Tabla2);
+		t2 = selecT (t1, Columnas,t2);
+		return OK;
+	}
+	else{
+		cout<<"La(s) columna(s) indicada(s) no existen en la Tabla de Origen"<<endl;
+          return ERROR;
+	}
+}
+
+TipoRet intersecTS(tablas & ts, char * Tabla1, char * Tabla2, char * Tabla3){
+	tabla t1= buscarTabla(ts, Tabla1);
+	tabla t2= buscarTabla(ts, Tabla2);
+	if (mismoEsquema(t1, t2)){
+		ts = createTableTS(ts, Tabla3);
+		tabla t3 = buscarTabla (ts, Tabla3);
+		t3 = intersecT(t1, t2, t3);
+	}
+     return OK;
 }
