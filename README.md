@@ -24,7 +24,7 @@ binary search trees and doubly Linked List.
 
 #### Create Table
 If doesn't exist another table with that name, creates a new table.
-```http
+```
     createTable (tableName)
 ```
 
