@@ -32,7 +32,7 @@ If doesn't exist another table with that name, creates a new table.
 
 Deletes the table named after 'tableName'.
 
-```http
+```
   dropTable (tableName)
 ```
 
@@ -42,7 +42,7 @@ Adds a new column to the indicated table only if it exists.
 If the table already contains data, the new column will be filled with 'EMPTY'
 values.
 
-```http
+```
   addCol (tableName, colName, colType, colQualifier)
 ```
 
@@ -55,7 +55,7 @@ values.
 
 Deletes the column indicated, from the table indicated.
 
-```http
+```
   dropCol( tableName, colName )
 ```
 
@@ -65,7 +65,7 @@ Inserts all the values indicated (separated by ':') on the columns indicated of 
 if a column of the table indicated it's left unselected, it whill insert the value 'EMPTY'.
 Each value corresponds with a column by it's position on the string.
 
-```http
+```
   insertInto (tableName, columns, values)
 ```
 
@@ -78,7 +78,7 @@ Each value corresponds with a column by it's position on the string.
 
 Deletes all the tuples of the indicated table that meet the condition
 
-```http
+```
   deleteFrom (tableName, deleteCondition)
 ```
 
@@ -94,7 +94,7 @@ If table1 exist and table2 doesn't exist, creates a table2 with all the tuples t
 condition given in the 'condition' parameter.
 PDD: condition has to be in the same format as 'deleteCondition'
 
-```http
+```
    selectWhere (tableName1, condition, tableName2)
 ```
 
@@ -103,7 +103,7 @@ PDD: condition has to be in the same format as 'deleteCondition'
 If table1 exist and table2 doesn't exist, creates a table2 with all the tuples that are contained by the columns indicated
 in the 'columns' parameter. All the columns indicated must be part of table1
 
-```http
+```
    select (tableName1, columns, tableName2)
 ```
 | Parameter | Type     | Values accepted    |
@@ -116,7 +116,7 @@ in the 'columns' parameter. All the columns indicated must be part of table1
 If table1 and table2 exists and table3 doesn't exist, creates a table3 with all the tuples from table1, and table2
 only if this two tables have the same metadata.
 
-```http
+```
    union ( tableName1, tableName2, tableName3 )
 ```
 
@@ -125,28 +125,28 @@ only if this two tables have the same metadata.
 Likewise the last operation, but for the intersection, that means, the tuples that have the
 same values from table1 and table2
 
-```http
+```
    intersect (tableName1, tableName2, tableName3)
 ```
 #### Print table
 
 Prints all the columns and tuples contained in the table indicated.
 
-```http
+```
    printDataTable (tableName)
 ```
 #### Print all tables
 
 Prints the list of tables created in the DB, in ascending order.
 
-```http
+```
     printTables()
 ```
 
 #### Print metadata
 
 Prints the metadata of the table indicated.
-```http
+```
    printMetadata(tableName)
 ```
 ## Feedback
